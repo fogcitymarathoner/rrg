@@ -1,0 +1,14 @@
+.svn
+.idea
+backups/
+exhaust.sh
+*.pyc
+sync.sh
+wipe.sh
+
+app/tmp/cache/persistent/cake_core*
+app/tmp/cache/models/cake_core*
+app/tmp/cache/models/cake_model*
+
+app/config/core.php
+app/config/database.php

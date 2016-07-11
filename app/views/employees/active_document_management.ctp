@@ -1,0 +1,1 @@
+<?php echo $this->element('employees/label_sheet_document_management',array('employees'=>$employees, 'paginator'=>$paginator,'webroot'=>$this->webroot))?>

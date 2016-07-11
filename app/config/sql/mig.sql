@@ -1,0 +1,2 @@
+ALTER TABLE 'employees_memos' ADD 'created_user_id' INT(11) NULL , ADD 'modified_user_id' INT(11) NULL , ADD 'created_date' DATE NULL , ADD 'modified_date' DATE NULL , ADD 'last_sync_time' DATETIME NULL ;
+ALTER TABLE 'clients_memos' ADD 'created_user_id' INT(11) NULL , ADD 'modified_user_id' INT(11) NULL , ADD 'created_date' DATE NULL , ADD 'modified_date' DATE NULL , ADD 'last_sync_time' DATETIME NULL ;

@@ -1,0 +1,1 @@
+<div class='reminder-client' id="reminder-client-<?php echo $id.'-'.$invid?>"></div>

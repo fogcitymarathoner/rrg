@@ -1,0 +1,44 @@
+
+
+#header {
+    padding:5px 10px;
+    background:#ddd;
+}
+h1 {
+    margin:0;
+}
+#nav-checks {
+    padding:5px 10px;
+    background:#c99;
+}
+#main {
+    float:left;
+    width:125px;
+    padding:10px;
+    background:#9c9;
+    font-size:60%;
+    font-weight:bold;
+}
+h2 {
+    margin:0 0 1em;
+}
+#sidebar {
+    float:left;
+    width:125px;
+    padding:10px;
+    background:#99c;
+    font-size:60%;
+    font-weight:bold;
+}
+#footer {
+    clear:both;
+    padding:5px 10px;
+    background:#cc9;
+}
+#footer p {
+    margin:0;
+}
+
+div.inline { float:left; }
+.clearBoth { clear:both; }
+tr.hidden {display: none;}

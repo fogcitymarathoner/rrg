@@ -1,0 +1,1 @@
+<div class='reminder-notes' id="reminder-notes-<?php echo $invoice['id'] ?>"><?php echo $invoice['notes'] ?></div>

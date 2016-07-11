@@ -1,0 +1,69 @@
+
+div#employeedeactiveurl {
+    display: none;
+}
+
+div#employeetimecardurl {
+    display: none;
+}
+
+div#employeemedicalurl {
+    display: none;
+}
+
+div#employeew4url {
+    display: none;
+}
+
+div#employeeinfourl {
+    display: none;
+}
+
+div#employeede34url {
+    display: none;
+}
+
+div#employeei9url {
+    display: none;
+}
+
+div#employeevoidurl {
+    display: none;
+}
+div#employeeindusturl {
+    display: none;
+}
+div#employeelabelspdfurl {
+    display: none;
+}
+div#employeelabelspdfsendurl {
+    display: none;
+}
+div#payroll-labels-pdf-sendurl {
+    display: none;
+}
+div#soap-employees-labels-pdf {
+    display: none;
+}
+div#soap-employees-labels-pdf-email {
+    display: none;
+}
+div#employeelabelspdfsendemailurl {
+    display: none;
+}
+
+div#rebuild-scripts-url {
+                                                                                                                                                                                                  display: none;
+                                                                                                                                                                                              }
+div#soap-invoices-timecard_received-url {
+    display: none;
+}
+div#soap-invoices-set_void-url {
+    display: none;
+}
+div#soap-reminders-soap_email-url {
+     display: none;
+ }
+div#soap-invoices-soap_edit-notes-url {
+    display: none;
+}

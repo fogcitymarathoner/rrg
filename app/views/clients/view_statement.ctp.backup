@@ -1,0 +1,16 @@
+<?php echo $javascript->link('clients_view');?>
+<?php //debug($items);exit;?>
+<?php echo $this->element('clients/menu', array(
+							'client'=>$this->data['Client'],
+							)); 
+?>
+
+<br>		
+<br>		<h3><?php echo $this->data['Client']['name']; ?>'s Balance Statement</h3>
+<?php echo $client->view($this->data['Client'],$this->data['State']['name']); ?>
+    <a href="<?php echo $this->webroot.'clients/view_statement_print/'.$this->data['Client']['id']?>" >View Printer Friendly Version</a>
+
+	<!-- Items -->
+	<?php echo $client->client_statement_view($items,$next,0); ?>
+	
+	

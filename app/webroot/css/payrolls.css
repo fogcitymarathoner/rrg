@@ -1,0 +1,40 @@
+
+
+
+div#payroll-id {
+    display: none;
+}
+
+
+div#payroll-menu {
+    padding-top: 20px;
+}
+.demo_ul {
+    display: block;
+    width: 200px;
+    margin: 0 auto;
+}
+
+.demo_ul li {
+    width: 100%;
+    list-style: none;
+    display: inline;
+}
+
+.demo_ul li a{
+    color: #333;
+    text-decoration: none;
+    padding: 10px 5px;
+    margin: 0 5px 5px;
+    background: #fff;
+    border: 1px solid #555;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+.demo_ul li a:hover{
+    color: #fff;
+    text-decoration: none;
+    background: #999;
+}

@@ -1,0 +1,65 @@
+<?php
+
+	function topmenu($webroot)
+	{
+		$topmenu = '';
+		$topmenu .= '<div style="border: 1px solid blue; ">';
+$topmenu .= '	<ul class="jd_menu" id="nav">';
+    $topmenu .= "		<li>Links";
+        $topmenu .= '					<ul>';
+            $topmenu .= '						<li><a href="https://www.intuit.com/login/?content=pyrContent"   TARGET="_blank" >Paycycle</a></li>';
+            $topmenu .= '		                <li><a href="'.$webroot.'mobile/"  >Mobile</a></li>';
+            $topmenu .= '		                <li><a href="'.$webroot.'zurb/home"  >Zurb</a></li>';
+            $topmenu .= '						<li><a href="https://cake.rocketsredglare.com/personal/posts"  TARGET="_blank"  >Personal DB</a></li>';
+            $topmenu .= '						<li><a href="https://cake.rocketsredglare.com/mcbiz"  TARGET="_blank"  >Personal Business</a></li>';
+            $topmenu .= '						<li><a href="https://www.wellsfargo.com"  TARGET="_blank"  >Wells Fargo</a></li>';
+            $topmenu .= '						<li><a href="https://cake.rocketsredglare.com/djrrg/todo/4/rrg"  TARGET="_blank"  >Todo</a></li>';
+            $topmenu .= '						<li><a href="https://cake.rocketsredglare.com/djrrg/schedule/calendar/month/business/"  TARGET="_blank"  >Calendar</a></li>';
+            $topmenu .= '						<li><a href="http://apps.rackspace.com/"  TARGET="_blank"  >RRG Webmail</a></li>';
+            $topmenu .= '						<li><a href="https://cake.rocketsredglare.com/djrrg/wiki/"  TARGET="_blank"  >RRG Wiki</a></li>';
+            $topmenu .= '						<li><a href="http://rrg-jos.sfgeek.org/"  TARGET="_blank"  >Joomla Assets</a></li>';
+            $topmenu .= '						<li><a href="https://cake.rocketsredglare.com/doc/wiki/show/Start/"  TARGET="_blank"  >Paystub Wiki</a></li>';
+            $topmenu .= '						<li><a href="https://fogtest.com/"  TARGET="_blank"  >Fogtest</a></li>';
+            $topmenu .= '					</ul>';
+        $topmenu .= '		<li><a href="'.$webroot.'clients/"  >Clients</a></li>';
+    $topmenu .= '		<li><a href="'.$webroot.'reminders/"  >Reminders</a></li>';
+    $topmenu .= '		<li><a href="'.$webroot.'invoices/"  >Invoices</a></li>';
+    $topmenu .= '		<li><a href="'.$webroot.'resumes/"  >Resumes</a></li>';
+    $topmenu .= '		<li><a href="'.$webroot.'payrolls/"  >Payroll</a></li>';
+    $topmenu .= '		<li><a href="'.$webroot.'employees/"  >Employees</a></li>';
+    $topmenu .= '		<li><a href="'.$webroot.'employees_payments/"  >Paychecks</a></li>';
+    $topmenu .= '		<li><a href="'.$webroot.'expenses/"  >Expenses</a></li>';
+    $topmenu .= "		<li><a href='{$webroot}vendors' >Vendors</a>";
+        $topmenu .= '					<ul>';
+            $topmenu .= '						<li><a href="'.$webroot.'vendors/"  >List</a></li>';
+            $topmenu .= '						<li><a href="'.$webroot.'vendors/add"  >Add Vendor</a></li>';
+            $topmenu .= '						<li><a href="'.$webroot.'vendors/search"  >Search Vendors</a></li>';
+            $topmenu .= '					</ul>';
+        $topmenu .= "		</li>";
+    $topmenu .= "		<li><a href='{$webroot}commissions_reports' >Commissions</a>";
+        $topmenu .= '					<ul>';
+            $topmenu .= '						<li><a href="'.$webroot.'commissions_reports/"  >Commissions Reports</a></li>';
+            $topmenu .= '						<li><a href="'.$webroot.'notes_reports/"  >Notes Reports</a></li>';
+            $topmenu .= '						<li><a href="'.$webroot.'invoices_items_commissions_items/"  >Commissions</a></li>';
+            $topmenu .= '						<li><a href="'.$webroot.'commissions_payments/"  >Commissions Payments</a></li>';
+            $topmenu .= '						<li><a href="'.$webroot.'notes/"  >Notes</a></li>';
+            $topmenu .= '						<li><a href="'.$webroot.'notes_payments/"  >Notes Payments</a></li>';
+            $topmenu .= '					</ul>';
+        $topmenu .= "		</li>";
+    $topmenu .= "		<li><a href='{$webroot}users' >Settings</a>";
+        $topmenu .= '					<ul>';
+            $topmenu .= '						<li><a href="'.$webroot.'settings/"  >Settings</a></li>';
+        $topmenu .= '						<li><a href="'.$webroot.'settings/generate_reminders"  >Generate Reminders</a></li>';
+            $topmenu .= '						<li><a href="'.$webroot.'users/"  >Users</a></li>';
+            $topmenu .= '						<li><a href="'.$webroot.'states/"  >States</a></li>';
+            $topmenu .= '						<li><a href="'.$webroot.'profiles/"  >Profiles</a></li>';
+            $topmenu .= '						<li><a href="'.$webroot.'groups/build_acl"  >Build ACL</a></li>';
+            $topmenu .= '						<li><a href="'.$webroot.'groups"  >Groups</a></li>';
+            $topmenu .= '					</ul>';
+        $topmenu .= "		</li>";
+    $topmenu .= '		<li><a href="'.$webroot.'users/logout"  >Logout</a></li>';
+    $topmenu .= '	</ul>';
+$topmenu .= '</div>';
+return $topmenu;
+}
+echo topmenu($webroot);

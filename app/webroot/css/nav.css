@@ -1,0 +1,59 @@
+/* void1 and void2 are the text elements of the header */
+
+#header {
+ /*background-color: #318; */
+    background-color:#999966;
+    
+    text-align: center;
+    padding: 10px;
+    color: silver;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+#header img {
+    display: block;
+    margin: 15px auto 10px;
+}
+
+#void1 {
+    font-size:13pt;
+    font-weight:bold;
+}
+#void2 {
+    font-size:9pt;
+    font-weight:normal;
+}
+
+a:hover {background:yellow;}
+
+#nav {
+
+    /* background-color:#c99; */
+
+    background-color: #999966;
+    padding:5px;
+    text-align:center;
+    font-size:15pt;
+    font-weight:bold;
+}
+#nav ul {
+    margin:0;
+    padding:0
+}
+
+#nav li {
+    display:inline;
+    list-style:none;
+    margin:0;
+    padding:5px;
+}
+
+
+#header a:hover{background:none;}
+
+
+.end {
+    margin: auto; 20px;
+    padding: 10px;
+    text-align: center;
+}

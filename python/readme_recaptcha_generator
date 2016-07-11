@@ -1,0 +1,2 @@
+source ~/envs/captcha/bin/activate
+then run recaptcha_generate.py

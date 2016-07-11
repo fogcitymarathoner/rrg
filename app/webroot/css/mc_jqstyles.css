@@ -1,0 +1,27 @@
+
+div#tmpDialogue {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    height: 500px;
+    margin: -251px 0 0 -251px;
+    border: 1px solid blue;
+    background: lightblue;
+}
+.tmpDialogueOn {
+    display: block;   
+}
+input#tmpDialogueClose {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 100px;
+}
+td.empinactive {
+    background-color: #d14577;
+}
+tr.altrow td.empinactive {
+    background-color: #d14577;
+}

@@ -1,0 +1,131 @@
+
+div#label-soap-message {
+    display: none;
+}
+
+input#enddate {
+    width: 110px;
+}
+input#employee-enddate {
+    width: 110px;
+}
+
+.ui-datepicker {
+    position: relative; z-index: 1000;
+}
+#ui-datepicker-div
+{
+    z-index:1005 !important;
+}
+
+div.employee-details  {
+    border-width:5px;
+    border-style:inset;
+    margin-top: 1px;
+}
+div.altrow  {
+    background: #f4f4f4;
+}
+
+.waiting {
+    background-image: url('<?php echo $this->webroot; ?>img/wait.gif');
+    background-repeat:no-repeat;
+}
+.div400x100 {
+    width:400px;
+    height:100px;
+}
+#navigation {
+    height: 30px;
+}
+.emp-details-col-1 {
+    float:left;
+    width:240px;
+    padding:10px;
+    background:#bfb;
+}
+.emp-details-col-2-1 {
+    float:left;
+    width:460px;
+    padding:10px;
+    background:#ddf;
+}
+.emp-details-col-2-2 {
+    float:left;
+    width:220px;
+    padding:10px;
+    background:#dff;
+}
+.emp-col-1-details {
+    height:360px;
+}
+.emp-col-2-details {
+    height:360px;
+}
+.emp-col-3-details {
+    height:360px;
+}
+#footer {
+    clear:both;
+    padding:10px;
+    background:#ff9;
+}
+
+div#tablecontainer
+{
+    width:890px;
+    border-top:1px solid black;
+}
+
+div.tablecontainerrow
+{
+    clear:both;
+    overflow:hidden;
+    border:1px solid black;
+    border-top:none;
+    height: 300px;
+    width: 1200px;
+}
+
+.emp-4-col-details {
+    height:200px;
+    width: 280px;
+}
+div#tablecontainer div div.column1
+{
+    width: 280px;
+    float:left;
+    border:1px solid black;
+}
+
+div#tablecontainer div div.column2
+{
+    width: 280px;
+    float:left;
+    border:1px solid black;
+}
+
+div#tablecontainer div div.column3
+{
+    width: 280px;
+    float:left;
+    border:1px solid black;
+}
+
+div#tablecontainer div div.column4
+{
+    width: 280px;
+    float:left;
+    border:1px solid black;
+}
+h2.employees-page-title {
+    padding-top: 30px;
+}
+h2.employees-label-page-title {
+    padding-top: 39px;
+}
+div.emp-4-col-details div.emp-label
+{
+    padding-left: 7px;
+    padding-top: 7px;
+}
