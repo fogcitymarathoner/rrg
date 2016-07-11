@@ -16,15 +16,7 @@ GLOBALS - START
 """
 BUCKET_NAME = 'php-apps'
 
-DB_USER = 'DB_USER'
-DB_PASS = 'DB_PASS'
-db_user = os.getenv('DB_USER')
-db_pass = os.getenv('DB_PASS')
-MYSQL_SERVER = 'MYSQL_SERVER'
-mysql_server = os.getenv('MYSQL_SERVER')
-if not db_user or not db_pass or not mysql_server:
-    print 'either %s or %s or %sis not set' % (DB_USER, DB_PASS, MYSQL_SERVER)
-    quit()
+
 
 """
 S3 SETUP - START
@@ -642,6 +634,15 @@ def setup_config(project_name='biz'):
     puts config.php and database.php into outgoing source tree
     called in dockerfile
     """
+    DB_USER = 'DB_USER'
+    DB_PASS = 'DB_PASS'
+    db_user = os.getenv('DB_USER')
+    db_pass = os.getenv('DB_PASS')
+    MYSQL_SERVER = 'MYSQL_SERVER'
+    mysql_server = os.getenv('MYSQL_SERVER')
+    if not db_user or not db_pass or not mysql_server:
+        print 'either %s or %s or %sis not set' % (DB_USER, DB_PASS, MYSQL_SERVER)
+        quit()
     dest = '%scake.rocketsredglare.com/%s/' % (mp, project_name)
     cfg_db = os.path.join(dest, 'app', 'config', 'database.php')
     # database.php
