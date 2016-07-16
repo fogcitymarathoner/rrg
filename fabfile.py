@@ -1,26 +1,54 @@
 import os
 import re
 from datetime import datetime as dt
-from datetime import timedelta as td
 
-from fabric.api import run
-from fabric.api import put
-from fabric.api import get
 from fabric.api import task
 from fabric.context_managers import cd
 from fabric.operations import local
 import boto
 from boto.s3.key import Key
+
 """
 GLOBALS - START
 """
-BUCKET_NAME = 'php-apps'
+#
+# S3 Backup bucket
+#
+BUCKET_NAME = 'php-apps-cluster'
+S3FOLDER = "mysql-backups/"
 
 
+TIMESTAMP_FORMAT = '%Y-%m-%d-%H-%M-%S'
+backup_aging_time = 30
+BACKUP_DIR = os.path.join(os.path.sep, 'backups')
 
-"""
-S3 SETUP - START
-"""
+backup_expiration_date = dt.now() - td(days=backup_aging_time)
+
+
+def delete_expired_backups_in_bucket(bucket, bucketlist, FILEPATTERN):
+
+    for f in bucketlist:
+        filename = os.path.basename(f.name)
+
+        if re.match(FILEPATTERN, os.path.basename(filename)):
+            bk_date = dt.strptime(os.path.basename(filename)[0:19], TIMESTAMP_FORMAT)
+            if bk_date < backup_expiration_date:
+                print 'Removing old S3 backup %s' % filename
+
+                bucket.delete_key(f.name)
+
+
+def delete_local_db_backups(FILEPATTERN):
+    #
+    # Delete old local backups
+    #
+    for dirName, subdirList, filelist in os.walk(BACKUP_DIR, topdown=False):
+        for f in filelist:
+            if re.search(FILEPATTERN, f):
+                bk_date = dt.strptime(f[0:19], TIMESTAMP_FORMAT)
+                if bk_date < backup_expiration_date:
+                    print 'Removing old local backup %s' % f
+                    os.remove(os.path.join(dirName, f))
 def s3_key():
     key = Key(BUCKET_NAME)
     #
@@ -40,23 +68,120 @@ def s3_key():
     bucket = conn.get_bucket(BUCKET_NAME)
 
     return boto.s3.key.Key(bucket), bucket.list()
-"""
-S3 SETUP - END
-"""
 
+
+def mkdirs(dir, writable=False):
+    if not os.path.exists(dir):
+        if not writable:
+            os.makedirs(dir, 0755 )
+        else:
+            os.makedirs(dir, 0777 )
+
+
+@task
+def download_last_db_backup(db_backups_dir, project_name='biz'):
+    """
+    download last project db backup from S3
+    """
+    archive_file_extension = 'sql.tar.gz'
+    if os.name == 'nt':
+        raise NotImplementedError
+
+    else:
+        key, bucketlist = s3_key()
+
+        TARFILEPATTERN = "[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-[0-9][0-9]-[0-9][0-9]-[0-9][0-9]-%s.%s" % \
+                         (project_name, archive_file_extension)
+
+        #
+        # delete files over a month old, locally and on server
+        #
+        backup_list = []
+        for f in bucketlist:
+            parray = f.name.split('/')
+            filename = parray[len(parray)-1]
+            if re.match(TARFILEPATTERN, filename):
+                farray = f.name.split('/')
+                fname = farray[len(farray)-1]
+                dstr = fname[0:19]
+
+                fdate = dt.strptime(dstr, "%Y-%m-%d-%H-%M-%S")
+                backup_list.append({'date': fdate, 'key': f})
+
+        backup_list = sorted(
+            backup_list, key=lambda k: k['date'], reverse=True)
+
+        last_backup = backup_list[0]
+        keyString = str(last_backup['key'].key)
+
+        # check if file exists locally, if not: download it
+        dest = db_backups_dir+keyString
+        print('Downloading %s to %s' % (keyString, dest))
+        if not os.path.exists(dest):
+            with open(db_backups_dir+keyString, 'wb') as f:
+                last_backup['key'].get_contents_to_file(f)
+        return last_backup['key']
+
+
+@task
+def backup_project_db(project='biz'):
+    """
+    dumps database into /backups, uploads to s3, deletes backups older than a month
+
+    """
+    try:
+        AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+        host = os.getenv('MYSQL_PORT_3306_TCP_ADDR')
+        port = os.getenv('MYSQL_PORT_3306_TCP_PORT')
+        rootpw = os.getenv('MYSQL_ENV_MYSQL_ROOT_PASSWORD')
+    except Exception, e:
+        print(e)
+        quit()
+    #
+    #  Connect to the bucket
+    #
+    conn = boto.connect_s3(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+    if (conn.lookup(BUCKET_NAME)):
+        print '----- bucket already exists! -----'
+    else:
+        print '----- creating bucket -----'
+        conn.create_bucket(BUCKET_NAME)
+
+    bucket = conn.get_bucket(BUCKET_NAME)
+    key = boto.s3.key.Key(bucket)
+
+    bucketlist = bucket.list()
+
+    FILEPATTERN = "[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-[0-9][0-9]-[0-9][0-9]-[0-9][0-9]-%s.sql.bz2" % project
+    sql_file = '%s-%s.sql' % (dt.now().strftime(TIMESTAMP_FORMAT), project)
+    print 'Dumping database %s to %s.bz2' % (d, sql_file)
+
+    sql_full_target = os.path.join(BACKUP_DIR, sql_file)
+    local('mysqldump -h"%s" -P"%s" -uroot -p"%s" %s > %s' % (host, port, rootpw, project, sql_full_target))
+    local('bzip2 %s' % sql_full_target)
+    # append '.bz2'
+    sql_local_full_target = sql_full_target
+    sql_full_target = '%s.bz2' % os.path.join(BACKUP_DIR, sql_file)
+    target_name = S3FOLDER + os.path.basename(sql_full_target)
+
+    key.key = target_name
+    print 'uploading STARTING %s to %s: %s'%(sql_file, target_name, dt.now())
+    try:
+        key.set_contents_from_filename(sql_full_target)
+        print 'upload %s FINISHED: %s'%(sql_local_full_target, dt.now())
+    finally:
+        delete_expired_backups_in_bucket(bucket, bucketlist, FILEPATTERN)
+        delete_local_db_backups(FILEPATTERN)
+
+
+########################################################## end refactor
 @task
 def test():
    """
    tests fabric load on circle ci
    """
    return 1
-
-def mkdirs(dir, writable=False):
-    if not os.path.exists(dir):
-	if not writable:
-            os.makedirs(dir, 0755 )
-        else:
-            os.makedirs(dir, 0777 )
             
 
 rrg_core_php = """<?php
@@ -680,42 +805,3 @@ def cake_daily(project_name='biz'):
     dest = '%scake.rocketsredglare.com/%s/' % (mp, project_name)
     with cd(dest):
         local('./daily.sh')
-        
-# broken since ecs deploy
-def download_last_db_backup(db_backups, project_name='biz'):
-    archive_file_extension = 'sql.tar.gz'
-    if os.name == 'nt':
-        raise NotImplementedError
-
-    else:
-        key, bucketlist = s3_key()
-
-        TARFILEPATTERN = "[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-[0-9][0-9]-[0-9][0-9]-[0-9][0-9]-%s.%s"%(project_name, archive_file_extension)
-
-        #
-        # delete files over a month old, locally and on server
-        #
-        backup_list = []
-        for f in bucketlist:
-            parray = f.name.split('/')
-            filename = parray[len(parray)-1]
-            if re.match(TARFILEPATTERN, filename):
-                farray = f.name.split('/')
-                fname = farray[len(farray)-1]
-                dstr = fname[0:19]
-
-                fdate = dt.strptime(dstr, "%Y-%m-%d-%H-%M-%S")
-                backup_list.append({'date': fdate, 'key': f})
-        backup_list = sorted(
-            backup_list, key=lambda k: k['date'], reverse=True)
-        last_backup = backup_list[0]
-        keyString = str(last_backup['key'].key)
-
-        # check if file exists locally, if not: download it
-        dest = db_backups+keyString
-        print('Downloading %s to %s' % (keyString, dest))
-        if not os.path.exists(dest):
-            with open(db_backups+keyString, 'wb') as f:
-                last_backup['key'].get_contents_to_file(f)
-        return last_backup['key']
-
