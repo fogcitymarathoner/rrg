@@ -4,7 +4,16 @@ from s3_mysql_backup import mkdirs
 from fabric.api import task
 from fabric.context_managers import cd
 from fabric.operations import local
+from sherees_commissions import cache_comm_items
 
+CItemDir = 'data/transactions/invoices/invoice_items/commissions_items/'
+
+@task
+def cache_comm_items(data_dir=CItemDir):
+    """
+    replaces cake cache commissions items
+    """
+    cache_comm_items(data_dir)
 
 @task
 def get_last_db_backup(db_backups_dir='backups', project_name='biz'):
