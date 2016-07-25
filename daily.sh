@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+fab cach_comm_items:data_dir=data/transactions/invoices/invoice_items/commissions_items/
 php cake/console/cake.php delete_old_voided_invoices
 php cake/console/cake.php delete_old_zeroed_invoice_items
 php cake/console/cake.php generate_reminders
@@ -14,16 +16,6 @@ php cake/console/cake.php cache_invoice_items 3
 php cake/console/cake.php cache_invoice_items 4
 php cake/console/cake.php cache_invoice_items 5
 php cake/console/cake.php cache_invoice_items 6
-php cake/console/cake.php cache_invoice_commissions_items 1
-php cake/console/cake.php cache_invoice_commissions_items 2
-php cake/console/cake.php cache_invoice_commissions_items 3
-php cake/console/cake.php cache_invoice_commissions_items 4
-php cake/console/cake.php cache_invoice_commissions_items 5
-php cake/console/cake.php cache_invoice_commissions_items 6
-php cake/console/cake.php cache_invoice_commissions_items 7
-php cake/console/cake.php cache_invoice_commissions_items 8
-php cake/console/cake.php cache_invoice_commissions_items 9
-php cake/console/cake.php cache_invoice_commissions_items 10
 php cake/console/cake.php cache_checks
 php cake/console/cake.php cache_payrolls
 php cake/console/cake.php cache_employees
