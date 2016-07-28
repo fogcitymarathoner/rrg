@@ -52,14 +52,32 @@ except MissingEnvVar as e:
     print(e.value)
     raise
 
-engine = create_engine(
-             'mysql+mysqldb://%s:%s@%s:%s/rrg' % (
-             DB_USER, DB_PASS, MYSQL_PORT_3306_TCP_ADDR, MYSQL_PORT_3306_TCP_PORT))
-
 
 Base = declarative_base()
 
 # Models for Commissions, Invoices, and Invoice Items are in sherees_commissions
+
+
+class State(Base):
+
+    __tablename__ = 'states'
+
+    id = Column(Integer, primary_key=True)
+    post_ab = Column(String)
+    capital = Column(String)
+    date = Column(String)
+    flower = Column(String)
+    name = Column(String)
+    state_no = Column(String)
+
+
+class User(Base):
+
+    __tablename__ = 'users'
+
+    id = Column(Integer, primary_key=True)
+    firstname = Column(String)
+    lastname = Column(String)
 
 
 class Client(Base):
@@ -67,32 +85,18 @@ class Client(Base):
     __tablename__ = 'clients'
 
     id = Column(Integer, primary_key=True)
-    contract_id = Column(Integer)
-    date = Column(Date)
-    po = Column(String)
-    employerexpenserate = Column(Float)
+    name = Column(String)
+    street1 = Column(String)
+    street2 = Column(String)
+    city = Column(String)
+    state_id = Column(Integer)
+    zip = Column(String)
+    active = Column(Boolean)
     terms = Column(Integer)
-    timecard = Column(Boolean)
-    notes = Column(String)
-    period_start = Column(Date)
-    period_end = Column(Date)
-
-    posted = Column(Boolean)
-    cleared = Column(Boolean)
-    cleared_date = Column(Date)
-    prcleared = Column(Boolean)
-    timecard_receipt_sent = Column(Boolean)
-    message = Column(TEXT)
-    
-    amount = Column(Float)
-    voided = Column(Boolean)
-
-    token = Column(String)
-    view_count = Column(Integer)
-    mock = Column(Boolean)
-    timecard_document = Column(TEXT)
-    created_date = Column(Date)
+    hq = Column(Boolean)
     modified_date = Column(Date)
-    created_user_id = Column(Integer)
-    modified_user_id = Column(Integer)
-    last_sync_time = Column(TIMESTAMP)
+    created_date = Column(Date)
+    modified_user = Column(Integer)
+    created_user = Column(Integer)
+    last_sync_time = Column(Date)
+
