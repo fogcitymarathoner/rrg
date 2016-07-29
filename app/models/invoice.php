@@ -282,10 +282,12 @@ class Invoice extends AppModel {
 
                 // What does shell_tagID do? Does it generate tag if one does not exist?
                 // Does generate reminders setup tag?
+		// fixme:
+/*
                 $comm['InvoicesItemsCommissionsItem']['commissions_reports_tag_id'] =
                     $this->CommissionsReportsTag->shell_tagID($comm['InvoicesItemsCommissionsItem']['employee_id'],
                         $comm['InvoicesItemsCommissionsItem']['commissions_report_id']);
-
+*/
                 $this->InvoicesItem->InvoicesItemsCommissionsItem->save($comm);
             endforeach;
         endforeach;

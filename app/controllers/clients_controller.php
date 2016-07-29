@@ -463,9 +463,9 @@ class ClientsController extends AppController {
             $fsize = filesize($fixfile);
             if($fsize)
             {
-                $items = $this->Client->statement($id, $payload);
+                $items = $this->Statements->generate_statement($id);
                 $this->set(compact('items'));
-                $runtime = $payload['date_generated'];
+                $runtime = $this->Statements->statement_fixture_generation_date($id);
                 $this->set(compact('runtime'));
             }else
             {

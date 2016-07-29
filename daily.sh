@@ -3,6 +3,7 @@
 # or just run generate_reminders
 
 fab cache_comm_items:data_dir=data/transactions/invoices/invoice_items/commissions_items/
+
 php cake/console/cake.php delete_old_voided_invoices
 php cake/console/cake.php delete_old_zeroed_invoice_items
 php cake/console/cake.php generate_reminders
