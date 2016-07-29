@@ -1,48 +1,26 @@
 import os
-import re
-from datetime import datetime as dt
-from datetime import timedelta as td
-
-from fabric.api import run
-from fabric.api import put
-from fabric.api import get
+from s3_mysql_backup import download_last_db_backup
+from s3_mysql_backup import mkdirs
 from fabric.api import task
 from fabric.context_managers import cd
 from fabric.operations import local
-import boto
-from boto.s3.key import Key
-"""
-GLOBALS - START
-"""
-BUCKET_NAME = 'php-apps'
+from sherees_commissions import cache_comm_items
 
+CItemDir = 'data/transactions/invoices/invoice_items/commissions_items/'
 
+@task
+def cache_comm_items(data_dir=CItemDir):
+    """
+    replaces cake cache commissions items
+    """
+    cache_comm_items(data_dir)
 
-"""
-S3 SETUP - START
-"""
-def s3_key():
-    key = Key(BUCKET_NAME)
-    #
-    #
-    #  Connect to the bucket
-    #
-
-    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
-    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
-    conn = boto.connect_s3(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
-    if (conn.lookup(BUCKET_NAME)):
-        print('----- bucket already exists! -----')
-    else:
-        print('----- creating bucket -----')
-        conn.create_bucket(BUCKET_NAME)
-
-    bucket = conn.get_bucket(BUCKET_NAME)
-
-    return boto.s3.key.Key(bucket), bucket.list()
-"""
-S3 SETUP - END
-"""
+@task
+def get_last_db_backup(db_backups_dir='backups', project_name='biz'):
+    """
+    download last project db backup from S3
+    """
+    download_last_db_backup(db_backups_dir=db_backups_dir, project_name=project_name)
 
 @task
 def test():
@@ -50,13 +28,6 @@ def test():
    tests fabric load on circle ci
    """
    return 1
-
-def mkdirs(dir, writable=False):
-    if not os.path.exists(dir):
-	if not writable:
-            os.makedirs(dir, 0755 )
-        else:
-            os.makedirs(dir, 0777 )
             
 
 rrg_core_php = """<?php
@@ -598,10 +569,21 @@ data_dirs = ["vendors", "invoices",
              "reminders", "contractscontracts_items", "contracts",
              "contracts/contracts_items",
              "employees_memos", "payrolls/paystub_transmittals", "payrolls"]
-mp = '/mnt/src/'
 
 @task
-def deploy_to_nginx(project_name='biz'):
+def make_data_dirs(mp='/mnt/src/', project_name='biz'):
+    data_dir_base = '%scake.rocketsredglare.com/%s/data' % (mp, project_name)
+
+    mkdirs(data_dir_base)
+    print 'Made dir %s' % data_dir_base
+    for d in data_dirs:
+        ddest = os.path.join(data_dir_base, d)
+        mkdirs(ddest, True)
+        print 'Made dir %s' % ddest
+    local('chmod -R 777 %s' % data_dir_base)
+
+@task
+def deploy_to_nginx(mp='/mnt/src/', project_name='biz'):
     """
     deploy to host volume, source and last database backup
     called in ecs container
@@ -612,16 +594,8 @@ def deploy_to_nginx(project_name='biz'):
     # write to host os
     mkdirs(dest)
     print 'made dir %s' % dest
-    
-    data_dir_base = '%scake.rocketsredglare.com/%s/data' % (mp, project_name)
-    
-    mkdirs(data_dir_base)
-    print 'made dir %s' % data_dir_base
-    for d in data_dirs:
-        ddest = os.path.join(data_dir_base, d)
-        mkdirs(ddest, True)
-        print 'made dir %s' % ddest
-    local('chmod -R 777 %s' % data_dir_base)
+    make_data_dirs(mp=mp, project_name=project_name)
+
         
     # copy every thing except .git
     # still leaving deleted from source files
@@ -629,7 +603,8 @@ def deploy_to_nginx(project_name='biz'):
     local('chmod -R 777 %sapp/tmp' % dest)
     setup_config(project_name)
 
-def setup_config(project_name='biz'):
+
+def setup_config(mp='/mnt/src/', project_name='biz'):
     """
     puts config.php and database.php into outgoing source tree
     called in dockerfile
@@ -643,12 +618,13 @@ def setup_config(project_name='biz'):
     if not db_user or not db_pass or not mysql_server:
         print 'either %s or %s or %sis not set' % (DB_USER, DB_PASS, MYSQL_SERVER)
         quit()
+
     dest = '%scake.rocketsredglare.com/%s/' % (mp, project_name)
     cfg_db = os.path.join(dest, 'app', 'config', 'database.php')
+    print('database.php location %s' % cfg_db)
     # database.php
     database_php = """<?php
 class DATABASE_CONFIG {
-
     var $default = array(
         'driver' => 'mysql',
         'persistent' => false,
@@ -661,7 +637,7 @@ class DATABASE_CONFIG {
 }
 ?>
 """ % (mysql_server, db_user, db_pass, project_name)
-    print('writing %s' % cfg_db)
+    print('Writing %s' % cfg_db)
     with open(cfg_db, 'wb+') as f:
         f.write(database_php)
 
@@ -676,46 +652,7 @@ class DATABASE_CONFIG {
             f.write(rrg_core_php)
 
 @task
-def cake_daily(project_name='biz'):
+def cake_daily(mp='/mnt/src/', project_name='biz'):
     dest = '%scake.rocketsredglare.com/%s/' % (mp, project_name)
     with cd(dest):
         local('./daily.sh')
-        
-# broken since ecs deploy
-def download_last_db_backup(db_backups, project_name='biz'):
-    archive_file_extension = 'sql.tar.gz'
-    if os.name == 'nt':
-        raise NotImplementedError
-
-    else:
-        key, bucketlist = s3_key()
-
-        TARFILEPATTERN = "[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-[0-9][0-9]-[0-9][0-9]-[0-9][0-9]-%s.%s"%(project_name, archive_file_extension)
-
-        #
-        # delete files over a month old, locally and on server
-        #
-        backup_list = []
-        for f in bucketlist:
-            parray = f.name.split('/')
-            filename = parray[len(parray)-1]
-            if re.match(TARFILEPATTERN, filename):
-                farray = f.name.split('/')
-                fname = farray[len(farray)-1]
-                dstr = fname[0:19]
-
-                fdate = dt.strptime(dstr, "%Y-%m-%d-%H-%M-%S")
-                backup_list.append({'date': fdate, 'key': f})
-        backup_list = sorted(
-            backup_list, key=lambda k: k['date'], reverse=True)
-        last_backup = backup_list[0]
-        keyString = str(last_backup['key'].key)
-
-        # check if file exists locally, if not: download it
-        dest = db_backups+keyString
-        print('Downloading %s to %s' % (keyString, dest))
-        if not os.path.exists(dest):
-            with open(db_backups+keyString, 'wb') as f:
-                last_backup['key'].get_contents_to_file(f)
-        return last_backup['key']
-
