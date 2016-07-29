@@ -7,6 +7,7 @@ from rrg.models import User
 from sqlalchemy.orm import sessionmaker
 
 from sherees_commissions.models import engine
+from sherees_commissions.models import Invoice
 
 Session = sessionmaker(bind=engine)
 
@@ -26,4 +27,10 @@ users = session.query(User).order_by(User.firstname, User.lastname)
 
 for user in users:
     print(user.id, user.firstname, user.lastname)
+
+
+invs = session.query(Invoice).order_by(Invoice.date)
+
+for i in invs:
+    print(i.id, i.amount, i.date)
 
