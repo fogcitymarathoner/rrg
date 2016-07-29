@@ -618,12 +618,13 @@ def setup_config(mp='/mnt/src/', project_name='biz'):
     if not db_user or not db_pass or not mysql_server:
         print 'either %s or %s or %sis not set' % (DB_USER, DB_PASS, MYSQL_SERVER)
         quit()
+
     dest = '%scake.rocketsredglare.com/%s/' % (mp, project_name)
     cfg_db = os.path.join(dest, 'app', 'config', 'database.php')
+    print('database.php location %s' % cfg_db)
     # database.php
     database_php = """<?php
 class DATABASE_CONFIG {
-
     var $default = array(
         'driver' => 'mysql',
         'persistent' => false,
