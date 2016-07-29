@@ -606,7 +606,7 @@ def deploy_to_nginx(mp='/mnt/src/', project_name='biz'):
     setup_config(project_name)
 
 
-def setup_config(mp='/mnt/src/', project_name='biz'):
+def setup_config(project_name='biz'):
     """
     puts config.php and database.php into outgoing source tree
     called in dockerfile
@@ -620,7 +620,14 @@ def setup_config(mp='/mnt/src/', project_name='biz'):
     MYSQL_SERVER = 'MYSQL_SERVER'
     mysql_server = os.getenv('MYSQL_SERVER')
     if not db_user or not db_pass or not mysql_server:
-        print 'either %s or %s or %sis not set' % (DB_USER, DB_PASS, MYSQL_SERVER)
+        print 'either %s or %s or %s is not set' % (DB_USER, DB_PASS, MYSQL_SERVER)
+        quit()
+
+    MP = 'MOUNT_POINT'
+    mp = os.getenv(MP, '/mnt/src/')
+
+    if not mp:
+        print '%s is not set' % (mp)
         quit()
 
     dest = '%scake.rocketsredglare.com/%s/' % (mp, project_name)
