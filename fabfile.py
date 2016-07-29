@@ -611,8 +611,6 @@ def setup_config(project_name='biz'):
     puts config.php and database.php into outgoing source tree
     called in dockerfile
     """
-    print('Project %s' % project_name)
-    print('mount point %s' % mp)
     DB_USER = 'DB_USER'
     DB_PASS = 'DB_PASS'
     db_user = os.getenv('DB_USER')
@@ -630,6 +628,9 @@ def setup_config(project_name='biz'):
         print '%s is not set' % (mp)
         quit()
 
+    print('Project %s' % project_name)
+    print('mount point %s' % mp)
+    
     dest = '%scake.rocketsredglare.com/%s/' % (mp, project_name)
     cfg_db = os.path.join(dest, 'app', 'config', 'database.php')
     print('database.php location %s' % cfg_db)
