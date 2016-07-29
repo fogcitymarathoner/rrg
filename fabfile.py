@@ -611,6 +611,8 @@ def setup_config(mp='/mnt/src/', project_name='biz'):
     puts config.php and database.php into outgoing source tree
     called in dockerfile
     """
+    print('Project %s' % project_name)
+    print('mount point %s' % mp)
     DB_USER = 'DB_USER'
     DB_PASS = 'DB_PASS'
     db_user = os.getenv('DB_USER')
