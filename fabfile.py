@@ -630,7 +630,7 @@ def setup_config(project_name='biz'):
 
     print('Project %s' % project_name)
     print('mount point %s' % mp)
-    
+
     dest = '%scake.rocketsredglare.com/%s/' % (mp, project_name)
     cfg_db = os.path.join(dest, 'app', 'config', 'database.php')
     print('database.php location %s' % cfg_db)

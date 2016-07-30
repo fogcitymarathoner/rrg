@@ -128,42 +128,6 @@ class ExpenseCache extends Expense {
         return $open;
     }
 
-    function cleared_invoices_client($client_id)
-    {
-        $this->Invoice->unbindContractModelForInvoicing();
-        $this->Invoice->unbindModel(array('hasMany' => array('InvoicesItem','InvoicesPayment','EmployeesPayment','InvoicesTimecardReminderLog','InvoicesPostLog','ClientsManager'),),false);
-        $this->Client->unbindModel(array('hasMany' => array('ClientsManager', ),),false);
-        $this->ClientsContract->unbindModel(array('hasAndBelongsToMany' => array('ClientsManager',),),false);
-        $cleared = $this->Invoice->find('all', array(
-                'conditions'=>array('voided'=>0,'posted'=>1,'cleared'=>1,'client_id'=>$client_id,
-                    'mock' => 0,),
-                'fields'=>array(
-                    'Invoice.id',
-                    'Invoice.period_start',
-                    'Invoice.period_end',
-                    'Invoice.date',
-                    'Invoice.terms',
-                    'Invoice.notes',
-                    'Invoice.amount',
-                    'Invoice.contract_id',
-                    'ClientsContract.employee_id'),
-                'order'=>array('Invoice.date ASC'),
-            )
-        );
-        $count = 0;
-        foreach ($cleared as $invoice):
-            $datearray = getdate(strtotime($invoice['Invoice']['date']));
-            $duedate  = mktime(0, 0, 0, date('m',strtotime($datearray['month']))   , $datearray['mday']+$invoice['Invoice']['terms'], $datearray['year']);
-            $today  = mktime(0, 0, 0, date("m")  , date("d"), date("Y"));
-            $cleared[$count]['Invoice']['duedate'] = date('Y-m-d',$duedate);
-            $count++;
-        endforeach;
-        $this->ClientsContract->unbindModel(array('hasAndBelongsToMany' => array('ClientsManager'),),false);
-        $this->ClientsContract->unbindModel(array('hasMany' => array('Invoice','ContractsItem'),),false);
-        $this->unbindModel(array('hasMany' => array('InvoicesItem','InvoicesPayment','EmployeesPayment','InvoicesTimecardReminderLog','InvoicesPostLog'
-        ,'ClientsManager'),),false);
-        return $cleared;
-    }
 
     private function append_new_transactions_to_statement_array($payload,$invoicesdb, $checksdb)
     {
