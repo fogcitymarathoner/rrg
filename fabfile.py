@@ -4,10 +4,22 @@ from s3_mysql_backup import mkdirs
 from fabric.api import task
 from fabric.context_managers import cd
 from fabric.operations import local
-from sherees_commissions import cache_comm_items as \
+from rrg.sherees_commissions import cache_comm_items as \
     cache_commissions_items
+from rrg import cache_clients_ar
+
 
 CItemDir = 'data/transactions/invoices/invoice_items/commissions_items/'
+
+@task
+def cache_client_accounts_receivable(data_dir=CItemDir):
+    """
+    replaces cake cache_client_ar
+    :param data_dir:
+    :return:
+    """
+    print('Caching Clients AR')
+    cache_clients_ar(data_dir)
 
 @task
 def cache_comm_items(data_dir=CItemDir):
@@ -15,6 +27,7 @@ def cache_comm_items(data_dir=CItemDir):
     replaces cake cache commissions items
     """
     # renamed to prevent recursion
+    print('Caching Commission Items')
     cache_commissions_items(data_dir)
 
 @task

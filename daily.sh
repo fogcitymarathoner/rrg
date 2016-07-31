@@ -3,7 +3,7 @@
 # or just run generate_reminders
 
 fab cache_comm_items:data_dir=data/transactions/invoices/invoice_items/commissions_items/
-
+fab cache_client_accounts_receivable:data_dir=data/transactions/invoices/invoice_items/commissions_items/
 php cake/console/cake.php delete_old_voided_invoices
 php cake/console/cake.php delete_old_zeroed_invoice_items
 php cake/console/cake.php generate_reminders
@@ -24,7 +24,6 @@ php cake/console/cake.php cache_employees
 php cake/console/cake.php cache_client_open_invoices
 php cake/console/cake.php cache_employee_payments
 php cake/console/cake.php cache_clients
-php cake/console/cake.php cache_clients_ar
 php cake/console/cake.php cache_contracts
 php cake/console/cake.php delete_old_cleared_logs
 php cake/console/cake.php delete_orphan_invoice_items
