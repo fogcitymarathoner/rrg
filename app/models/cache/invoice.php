@@ -134,11 +134,7 @@ if(!class_exists('InvoiceCache')) {  // Hard to fix
 
             ini_set('memory_limit', '-1');
             echo "Caching invoices into transactions archive" . $this->dsComp->invoicedir . "\n";
-            $ar = array();
-            $ar['all'] = array();
-            $ar['open'] = array();
-            $ar['pastdue'] = array();
-            $ar['cleared'] = array();
+
 
 
             switch ($bucket) {
@@ -159,6 +155,16 @@ if(!class_exists('InvoiceCache')) {  // Hard to fix
                     break;
                 case '4':
                     $invoices = $this->find('all', array('conditions' => array('Invoice.id > 2999 and Invoice.id < 4000'), 'order' => array('Invoice.modified_date' => 'desc')));
+
+                    $this->cache_bucket_of_invoices($invoices);
+                    break;
+                case '5':
+                    $invoices = $this->find('all', array('conditions' => array('Invoice.id > 3999 and Invoice.id < 5000'), 'order' => array('Invoice.modified_date' => 'desc')));
+
+                    $this->cache_bucket_of_invoices($invoices);
+                    break;
+                case '6':
+                    $invoices = $this->find('all', array('conditions' => array('Invoice.id > 4999 and Invoice.id < 6000'), 'order' => array('Invoice.modified_date' => 'desc')));
 
                     $this->cache_bucket_of_invoices($invoices);
                     break;
