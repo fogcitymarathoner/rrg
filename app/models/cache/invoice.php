@@ -168,6 +168,11 @@ if(!class_exists('InvoiceCache')) {  // Hard to fix
 
                     $this->cache_bucket_of_invoices($invoices);
                     break;
+                case '7':
+                    $invoices = $this->find('all', array('conditions' => array('Invoice.id > 5999 and Invoice.id < 7000'), 'order' => array('Invoice.modified_date' => 'desc')));
+
+                    $this->cache_bucket_of_invoices($invoices);
+                    break;
             }
 
         }

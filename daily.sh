@@ -20,6 +20,7 @@ php cake/console/cake.php cache_invoice_items 3
 php cake/console/cake.php cache_invoice_items 4
 php cake/console/cake.php cache_invoice_items 5
 php cake/console/cake.php cache_invoice_items 6
+php cake/console/cake.php cache_invoice_items 7
 php cake/console/cake.php cache_checks
 php cake/console/cake.php cache_payrolls
 php cake/console/cake.php cache_employees
