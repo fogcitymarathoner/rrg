@@ -89,15 +89,7 @@ if(!class_exists('InvoiceCache')) {  // Hard to fix
                 $InvoicesItems = $invoice['InvoicesItem'];
                 $InvoicesPayments = $invoice['InvoicesPayment'];
                 $EmployeesPayments = $invoice['EmployeesPayment'];
-                if ($invoice['Invoice']['cleared'] == 1) {
-                    $ar['cleared'][] = $invoice['Invoice']['id'];
-                } else {
-                    $ar['open'][] = $invoice['Invoice']['id'];
 
-                    if ($duedate < $today) {
-                        $ar['pastdue'][] = $invoice['Invoice']['id'];
-                    }
-                }
                 $invoice['InvoicesItem'] = array();
                 $invoice['InvoicesPayment'] = array();
                 $invoice['EmployeesPayment'] = array();
@@ -134,10 +126,7 @@ if(!class_exists('InvoiceCache')) {  // Hard to fix
             }
 
             echo "\n";
-            $ar['date_generated'] = date('D, d M Y H:i:s');
-            $f = fopen($this->xml_home . 'transactions/invoices/ar.xml', 'w');
-            fwrite($f, $serializer->serialize($ar));
-            fclose($f);
+
         }
 
         function cache_invoices($bucket)
