@@ -13,5 +13,5 @@ WORKDIR /rrg
 
 RUN pwd
 RUN /usr/local/bin/easy_install-2.7 pip
-
+RUN rm -rf /home/ubuntu/virtualenvs/venv-system/lib/python2.7/site-packages/rrg*
 RUN /usr/local/bin/pip2.7 install -r requirements.txt
