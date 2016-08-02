@@ -8,8 +8,21 @@ from rrg.sherees_commissions import cache_comm_items as \
     cache_commissions_items
 from rrg import cache_clients_ar
 
+from rrg.helpers import MissingEnvVar
 
 CItemDir = 'data/transactions/invoices/invoice_items/commissions_items/'
+
+
+try:
+    env_str = 'CAKE_PROJECT'
+    if os.getenv(env_str) is None:
+        raise MissingEnvVar('%s is not set' % env_str)
+    else:
+        CAKE_PROJECT = os.getenv(env_str)
+
+except MissingEnvVar as e:
+    print(e.value)
+    raise
 
 @task
 def cache_client_accounts_receivable(data_dir=CItemDir):
@@ -27,8 +40,11 @@ def cache_comm_items(data_dir=CItemDir):
     replaces cake cache commissions items
     """
     # renamed to prevent recursion
-    print('Caching Commission Items')
-    cache_commissions_items(data_dir)
+    if CAKE_PROJECT == 'rrg':
+        print('Caching Commission Items')
+        cache_commissions_items(data_dir)
+    else:
+        print('Project not "rrg" skipping Caching Commission Items')
 
 @task
 def get_last_db_backup(db_backups_dir='backups', project_name='biz'):

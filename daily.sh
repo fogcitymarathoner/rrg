@@ -12,6 +12,8 @@ php cake/console/cake.php cache_invoices 1
 php cake/console/cake.php cache_invoices 2
 php cake/console/cake.php cache_invoices 3
 php cake/console/cake.php cache_invoices 4
+php cake/console/cake.php cache_invoices 5
+php cake/console/cake.php cache_invoices 6
 php cake/console/cake.php cache_invoice_items 1
 php cake/console/cake.php cache_invoice_items 2
 php cake/console/cake.php cache_invoice_items 3
