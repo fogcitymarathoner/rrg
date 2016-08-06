@@ -5,6 +5,7 @@ $commissions_total = 0 ;
 echo $javascript->link('commissions_reports_view'); ?>
 <div class="commissionsReportsTags view">
 <h2><?php  __('CommissionsReportsTag');?></h2>
+	<h3>Sum: <?php echo $sum ?></h3>
 	<dl><?php $i = 0; $class = ' class="altrow"';?>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Name'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>

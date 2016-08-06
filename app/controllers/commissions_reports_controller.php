@@ -175,32 +175,40 @@ class CommissionsReportsController extends AppController {
 		$this->set('employee', $tag['Employee']);
 
 		$this->CommissionsReport->CommissionsReportsTag->recursive = 2;
-		$this->CommissionsReport->CommissionsReportsTag->bindModel(array('hasMany' => array('InvoicesItemsCommissionsItem',),),false);
+		$this->CommissionsReport->CommissionsReportsTag->bindModel(
+			array('hasMany' => array('InvoicesItemsCommissionsItem',),),false);
 		$this->CommissionsReport->CommissionsReportsTag->bindModel(array('belongsTo' => array('Employee',),),false);
 
 		$items = $this->CommissionsReport->CommissionsReportsTag->InvoicesItemsCommissionsItem->find('all',
 			array('conditions'=>array('commissions_reports_tag_id'=>$id),
-				'order'=>array('InvoicesItemsCommissionsItem.date ASC',
-					'InvoicesItemsCommissionsItem.description ASC')));
+				'order'=>array('InvoicesItemsCommissionsItem.date ASC')));
 		$count = 0;
+		$sum = 0;
 		foreach($items as $item)
 		{
-			$this->CommissionsReport->CommissionsReportsTag->InvoicesItemsCommissionsItem->InvoicesItem->Invoice->recursive=2;
-			$invoice = $this->CommissionsReport->CommissionsReportsTag->InvoicesItemsCommissionsItem->InvoicesItem->Invoice->find('first',
+			$this->CommissionsReport->CommissionsReportsTag->InvoicesItemsCommissionsItem->
+				InvoicesItem->Invoice->recursive=2;
+			$invoice = $this->CommissionsReport->CommissionsReportsTag->InvoicesItemsCommissionsItem->
+				InvoicesItem->Invoice->find('first',
 			    array('conditions'=>array('Invoice.id'=>$item['InvoicesItem']['invoice_id'])));
-			//debug($invoice);exit;
+
 			$items[$count]['InvoicesItemsCommissionsItem']['Invoice']=$invoice['Invoice'];
 			$items[$count]['InvoicesItemsCommissionsItem']['Worker']=$invoice['ClientsContract']['Employee'];
 			$count++;
+			$sum = $sum + $item['InvoicesItemsCommissionsItem']['amount'];
 		}
-		//debug($items);exit;
+
 		$this->set('items', $items);
         $this->commPayModel->unbindModel(array('belongsTo' => array('Employee',),),false);
 		$payments = $this->commPayModel->find('all',
 									array('conditions'=>array('CommissionsPayment.commissions_reports_tag_id'=>$id),
-													'order'=>array('CommissionsPayment.date ASC'))); 
-		//debug($payments);exit;
+													'order'=>array('CommissionsPayment.date ASC')));
+		foreach($payments as $payment)
+		{
+			$sum = $sum - $payment['CommissionsPayment']['amount'];
+		}
 		$this->set('payments', $payments);
+		$this->set('sum', $sum);
 	}
 
 	
