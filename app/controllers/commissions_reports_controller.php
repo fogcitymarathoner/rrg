@@ -177,10 +177,11 @@ class CommissionsReportsController extends AppController {
 		$this->CommissionsReport->CommissionsReportsTag->recursive = 2;
 		$this->CommissionsReport->CommissionsReportsTag->bindModel(array('hasMany' => array('InvoicesItemsCommissionsItem',),),false);
 		$this->CommissionsReport->CommissionsReportsTag->bindModel(array('belongsTo' => array('Employee',),),false);
-		//$report = $this->CommissionsReport->find('all',array('conditions'=>array('id'=>$tag['CommissionsReportsTag']['commissions_report_id'])));
-		$items = $this->CommissionsReport->CommissionsReportsTag->InvoicesItemsCommissionsItem->find('all', 
-									array('conditions'=>array('commissions_reports_tag_id'=>$id),
-													'order'=>array('InvoicesItemsCommissionsItem.description ASC','InvoicesItemsCommissionsItem.date ASC'))); 
+
+		$items = $this->CommissionsReport->CommissionsReportsTag->InvoicesItemsCommissionsItem->find('all',
+			array('conditions'=>array('commissions_reports_tag_id'=>$id),
+				'order'=>array('InvoicesItemsCommissionsItem.date ASC',
+					'InvoicesItemsCommissionsItem.description ASC')));
 		$count = 0;
 		foreach($items as $item)
 		{
