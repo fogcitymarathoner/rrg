@@ -195,7 +195,10 @@ class CommissionsReportsController extends AppController {
 			$items[$count]['InvoicesItemsCommissionsItem']['Invoice']=$invoice['Invoice'];
 			$items[$count]['InvoicesItemsCommissionsItem']['Worker']=$invoice['ClientsContract']['Employee'];
 			$count++;
-			$sum = $sum + $item['InvoicesItemsCommissionsItem']['amount'];
+			if($item['InvoicesItemsCommissionsItem']['voided'] == 0)
+			{
+				$sum = $sum + $item['InvoicesItemsCommissionsItem']['amount'];
+			}
 		}
 
 		$this->set('items', $items);
