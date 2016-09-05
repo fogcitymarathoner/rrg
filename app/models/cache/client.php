@@ -324,72 +324,8 @@ class ClientCache extends Client {
         }
         return $checksE;
     }
-    // record primary keys of all invoices and checks ever created for the clients
-    function cache_invoices() {
-        /*
-         * Writes the client's ar fixtures (statements)
-         */
 
-        ini_set('memory_limit', '-1');
 
-        $clients = $this->find('all');
-        echo "Caching invoices for clients ...\n";
-        foreach ($clients as $client)
-        {
-            // skip inactives unless never syncd
-            $statementdir = $this->xml_home.'clients/statements/';
-            $filename = $statementdir.str_pad((string)$client['Client']['id'], 5, "0", STR_PAD_LEFT).'.xml';
-            echo ' processing '.$filename;
-            echo "\n";
-            if($client['Client']['active']==1)
-            {
-                // get invoice and check transactions from db
-                $invoicesdb = array();
-                $invoicesdb['Invoice'] = $this->invoices_all($client['Client']['id']);
-                $checksdb = array();
-                $checksdb['Check'] = $this->checks_all($client['Client']['id']);
-
-                // if statement file does not exist create it, completely
-                if(!file_exists ($filename) )
-                {
-                    echo 'starting file '. $filename;
-                    $this->write_statements_transactions_file($client,$filename, $invoicesdb['Invoice'], $checksdb['Check']);
-                } else  // statement file exists, update the statement with new transactiosn
-                {
-                    $payload = $this->statementsComp->generate_statement($client['Client']['id']);
-                    $payload = $this->append_new_transactions_to_statement_array($payload,$invoicesdb, $checksdb);
-                    $this->write_statements_transactions_file($client,$filename, $payload['Invoice'],$payload['Check']);
-                }
-            }
-            // if client is inactive do a complete rebuild if file does not exist
-            if(!$client['Client']['active'] && !file_exists (  $filename ))
-            {
-                $invoices = array();
-                $invoices['Invoice'] = $this->invoices_all($client['Client']['id']);
-                $checks = array();
-                $checks['Check'] = $this->checks_all($client['Client']['id']);
-
-                $this->write_statements_transactions_file($client, $filename, $invoices, $checks['Check']);
-            }
-        }
-    }
-    function cache_client_open_invoices() {
-        $clients = $this->find('all');
-
-        echo "Caching Open Invoices invoices ...\n";
-        foreach ($clients as $client)
-        {
-            $invoices = $this->invoices($client['Client']['id']);
-            $invList = array();
-            foreach($invoices['Invoice'] as $inv)
-            {
-                $invList[] = $inv['Invoice']['id'];
-            }
-            $filename = $this->dsComp->client_open_invoices_file($client['Client']['id']);
-            echo "Caching Open Invoices for ".$client['Client']['name'].' into '.$filename."\n";
-            $this->write_open_transactions_file($client,$filename, $invList);
-        }
-    }
     function cache_clients() {
 
         echo "Caching clients into archive...\n";

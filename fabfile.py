@@ -4,9 +4,6 @@ from s3_mysql_backup import mkdirs
 from fabric.api import task
 from fabric.context_managers import cd
 from fabric.operations import local
-from rrg.sherees_commissions import cache_comm_items as \
-    cache_commissions_items
-from rrg import cache_clients_ar
 
 from rrg.helpers import MissingEnvVar
 
@@ -24,27 +21,6 @@ except MissingEnvVar as e:
     print(e.value)
     raise
 
-@task
-def cache_client_accounts_receivable(data_dir=CItemDir):
-    """
-    replaces cake cache_client_ar
-    :param data_dir:
-    :return:
-    """
-    print('Caching Clients AR')
-    cache_clients_ar(data_dir)
-
-@task
-def cache_comm_items(data_dir=CItemDir):
-    """
-    replaces cake cache commissions items
-    """
-    # renamed to prevent recursion
-    if CAKE_PROJECT == 'rrg':
-        print('Caching Commission Items')
-        cache_commissions_items(data_dir)
-    else:
-        print('Project not "rrg" skipping Caching Commission Items')
 
 @task
 def get_last_db_backup(db_backups_dir='backups', project_name='biz'):

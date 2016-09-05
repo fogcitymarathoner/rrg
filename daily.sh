@@ -1,19 +1,9 @@
 #!/bin/bash
-# todo: replace with fabric routines, move out of nginx container and into cake-rrg container
-# or just run generate_reminders
 
-fab cache_comm_items:data_dir=data/transactions/invoices/invoice_items/commissions_items/
-fab cache_client_accounts_receivable:data_dir=data/transactions/invoices/
+
+
 php cake/console/cake.php delete_old_voided_invoices
 php cake/console/cake.php delete_old_zeroed_invoice_items
-php cake/console/cake.php generate_reminders
-php cake/console/cake.php cache_reminders
-php cake/console/cake.php cache_invoices 1
-php cake/console/cake.php cache_invoices 2
-php cake/console/cake.php cache_invoices 3
-php cake/console/cake.php cache_invoices 4
-php cake/console/cake.php cache_invoices 5
-php cake/console/cake.php cache_invoices 6
 php cake/console/cake.php cache_invoice_items 1
 php cake/console/cake.php cache_invoice_items 2
 php cake/console/cake.php cache_invoice_items 3
@@ -31,4 +21,3 @@ php cake/console/cake.php cache_contracts
 php cake/console/cake.php delete_old_cleared_logs
 php cake/console/cake.php delete_orphan_invoice_items
 
-# source /home/marc/envs/boto/bin/activate && fab db_backup
