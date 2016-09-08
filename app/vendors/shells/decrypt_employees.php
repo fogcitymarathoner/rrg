@@ -6,10 +6,10 @@ class DecryptEmployeesShell extends Shell {
     }
     function main() {
         App::import('Model', 'cache/employee');
-        
+
         $employeesModel = new EmployeeCache;
 
-        $employeesModel->decrypt();
+        $employeesModel->decryptes();
         exit;
         // Generate Reminders
     }
