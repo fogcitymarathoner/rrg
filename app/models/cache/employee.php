@@ -234,6 +234,28 @@ class EmployeeCache extends Employee {
 
 
 
+    function decrypt() {
+        Configure::write('debug',2);
+
+        echo 'Caching decrypting employees ';
+        ini_set('memory_limit', '-1');
+        $employees = $this->find('all');
+
+        foreach ($employees as $employee)
+        {
+            if( $employee['Employee']['voided']!= 1)
+            {
+                $encryptedEmployee = $this->Employee->read(null, $employee['Employee']['id']);
+                $this->data = $this->Employee->decrypt($encryptedEmployee);
+                debug($this->data['Employee']['firstname']);
+                debug($this->data['Employee']['lastname']);
+                debug($this->data['Employee']['ssn_crypto']);
+                debug($this->data['Employee']['bankaccountnumber_crypto']);
+                debug($this->data['Employee']['bankroutingnumber_crypto']);
+            }
+        }
+
+    }
 
 }
 ?>
