@@ -65,7 +65,7 @@ class EmployeeCache extends Employee {
         if($employee['Employee']['created_date']    == Null)
             $empsave['Employee']['created_date']= date('Y-m-d H:i:s');
 
-        $empsave['Employee']['Employee']['last_synced_time'] = date('Y-m-d H:i:s');
+        $empsave['Employee']['Employee']['last_sync_time'] = date('Y-m-d H:i:s');
         $this->save($empsave['Employee']);
     }
     /*
@@ -201,7 +201,7 @@ class EmployeeCache extends Employee {
                      * optimize a little by skipping inactives.  should be ok if refreshes are done diligently before any record deletions
                      */
 
-                    if (strtotime($employee['Employee']['modified_date']) > strtotime($employee['Employee']['last_synced_time']))
+                    if (strtotime($employee['Employee']['modified_date']) > strtotime($employee['Employee']['last_sync_time']))
                     {
                         $this->sync($employee,$fixfilename);
                     }

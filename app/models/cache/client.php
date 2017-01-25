@@ -37,7 +37,7 @@ class ClientCache extends Client {
         if($client['Client']['created_date']    == Null)
             $clsave['Client']['created_date']= date('Y-m-d H:i:s');
 
-        $clsave['Client']['last_synced_time'] = date('Y-m-d H:i:s');
+        $clsave['Client']['last_sync_time'] = date('Y-m-d H:i:s');
         $this->save($clsave);
     }
     /*

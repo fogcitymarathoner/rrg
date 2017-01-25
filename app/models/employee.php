@@ -961,7 +961,7 @@ class Employee extends AppModel {
         }
         $empsave = array();
         $empsave['Employee'] = $employee;
-        $empsave['Employee']['Employee']['last_synced_time'] = date('Y-m-d H:i:s');
+        $empsave['Employee']['Employee']['last_sync_time'] = date('Y-m-d H:i:s');
         $this->save($empsave['Employee']);
     }
 

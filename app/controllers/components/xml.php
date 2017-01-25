@@ -165,7 +165,7 @@ class XmlComponent
 
         $this->add_field($doc, $root, 'created_user_id', $emp['Employee']['created_user_id']);
         $this->add_field($doc, $root, 'modified_user_id', $emp['Employee']['modified_user_id']);
-        $this->add_field($doc, $root, 'last_synced_time', $emp['Employee']['last_synced_time']);
+        $this->add_field($doc, $root, 'last_sync_time', $emp['Employee']['last_sync_time']);
 
         // timestamp
         $dategenerated = $doc->createElement('date_generated');

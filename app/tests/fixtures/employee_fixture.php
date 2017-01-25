@@ -49,7 +49,7 @@ class EmployeeFixture extends CakeTestFixture {
 		'modified_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'created_user_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 		'modified_user_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
-		'last_synced_time' => array('type' => 'timestamp', 'null' => false, 'default' => 'CURRENT_TIMESTAMP'),
+		'last_sync_time' => array('type' => 'timestamp', 'null' => false, 'default' => 'CURRENT_TIMESTAMP'),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'username' => array('column' => 'username', 'unique' => 1), 'slug' => array('column' => 'slug', 'unique' => 1), 'active_index' => array('column' => 'active', 'unique' => 0), 'voided' => array('column' => 'voided', 'unique' => 0)),
 		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM')
 	);
@@ -101,7 +101,7 @@ class EmployeeFixture extends CakeTestFixture {
 			'modified_date' => '2014-02-23 21:16:29',
 			'created_user_id' => 1,
 			'modified_user_id' => 1,
-			'last_synced_time' => 1393190189
+			'last_sync_time' => 1393190189
 		),
 		array(
 			'id' => 1528,
@@ -149,7 +149,7 @@ class EmployeeFixture extends CakeTestFixture {
 			'modified_date' => '2012-01-29 00:00:00',
 			'created_user_id' => Null,
 			'modified_user_id' => Null,
-			'last_synced_time' => '2013-12-17 06:15:10'
+			'last_sync_time' => '2013-12-17 06:15:10'
 		),
 	);
 }
@@ -200,7 +200,7 @@ class EmployeeFixture extends CakeTestFixture {
   <modified_date>2012-01-29 00:00:00</modified_date>
   <created_user_id></created_user_id>
   <modified_user_id></modified_user_id>
-  <last_synced_time>2013-12-17 06:15:10</last_synced_time>
+  <last_sync_time>2013-12-17 06:15:10</last_sync_time>
   <date-generated>Sun, 23 Feb 2014 22:41:01</date-generated>
   <profile>
     <id>472</id>
