@@ -265,7 +265,7 @@ class InvoicesController extends AppController {
 			
 	    $subject = $this->invoiceFunction->email_subject($invoice, $employee);
 	    // $filename =  $this->invoiceFunction->invoiceFilename($invoice,$employee);
-	    $fully_qualified_filename =$invcom->invoiceFullyQualifiedFilename($invoice,$employee,$this->xml_home);
+	    $fully_qualified_filename = $this->invoiceFunction->invoiceFullyQualifiedFilename($invoice,$employee,$this->xml_home);
             // $new_name_when_attached=$filename; //optional
             // $this->Email->attach($fully_qualified_filename, $new_name_when_attached);
             // You can attach as many files as you like.
