@@ -255,21 +255,21 @@ class InvoicesController extends AppController {
 			
 			$this->Email->to = 'invoicetest@fogtest.com';
 			$this->Email->toName = 'Timecards';
-            $this->Email->subject = $filename;
+            // $this->Email->subject = $filename;
 
             $this->Email->from         = 'timecards@rocketsredglare.com';
             $this->Email->fromName     = "Rockets Redglare A/R";
             
-            $this->Email->body = $filename;
+            // $this->Email->body = $filename;
             $this->generatepdf($invoice,$client,$employee);
 
 
 			
-	   		$subject = $this->invoiceFunction->email_subject($invoice, $employee);
-	   		$filename =  $this->invoiceFunction->invoiceFilename($invoice,$employee);
-	        $fully_qualified_filename =$invcom->invoiceFullyQualifiedFilename($invoice,$employee,$this->xml_home);
-            $new_name_when_attached=$filename; //optional
-            $this->Email->attach($fully_qualified_filename, $new_name_when_attached);
+	    $subject = $this->invoiceFunction->email_subject($invoice, $employee);
+	    // $filename =  $this->invoiceFunction->invoiceFilename($invoice,$employee);
+	    $fully_qualified_filename =$invcom->invoiceFullyQualifiedFilename($invoice,$employee,$this->xml_home);
+            // $new_name_when_attached=$filename; //optional
+            // $this->Email->attach($fully_qualified_filename, $new_name_when_attached);
             // You can attach as many files as you like.
            
             // $result = $this->Email->send();
