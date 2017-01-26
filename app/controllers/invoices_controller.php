@@ -261,9 +261,7 @@ class InvoicesController extends AppController {
             $this->Email->fromName     = "Rockets Redglare A/R";
             
             // $this->Email->body = $filename;
-            $this->generatepdf($invoice,$client,$employee);
-
-
+            $this->Invoice->generatepdf($invoice,$client,$employee);
 			
 	    $subject = $this->invoiceFunction->email_subject($invoice, $employee);
 	    // $filename =  $this->invoiceFunction->invoiceFilename($invoice,$employee);
