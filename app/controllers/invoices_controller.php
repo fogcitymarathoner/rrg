@@ -233,6 +233,7 @@ class InvoicesController extends AppController {
 		}
 	}
     public function send($id = null) {
+            Configure::write('debug', 2);
     		if (!$id && empty($this->data)) {
 				$this->Session->setFlash(__('Invalid Invoice', true));
 				$this->redirect(array('action'=>'index'));
@@ -271,7 +272,7 @@ class InvoicesController extends AppController {
             $this->Email->attach($fully_qualified_filename, $new_name_when_attached);
             // You can attach as many files as you like.
            
-            $result = $this->Email->send();
+            // $result = $this->Email->send();
       }
 
     public function posted_reminder_void($id=null)
