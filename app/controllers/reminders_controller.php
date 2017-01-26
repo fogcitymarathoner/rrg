@@ -358,7 +358,7 @@ class RemindersController  extends AppController {
 			   	$this->Email->to = $email['email'];
 			   	$this->Email->toName = $employee['Employee']['firstname'].' '.$employee['Employee']['lastname'];
 			
-				$result = $this->Email->send();
+				// $result = $this->Email->send();
 				$this->Invoice->InvoicesTimecardReminderLog->create();
 				$reminderlog = array();
 				$reminderlog['InvoicesTimecardReminderLog']['invoice_id'] = $this->data['Invoice']['id'];
@@ -368,7 +368,7 @@ class RemindersController  extends AppController {
 			
 			endforeach; 
 			$this->Email->to = 'timecardtest@fogtest.com';           	
-			$result = $this->Email->send(); 
+			// $result = $this->Email->send(); 
 			$this->redirect(array('action'=>'index'));            
 		}
 	}
@@ -661,11 +661,11 @@ class RemindersController  extends AppController {
 
 
 	        $this->Email->body = $this->invoiceFunction->emailBody($invoice,$subject,$employee, $this->server);
-	        $result = $this->Email->send();
+	        // $result = $this->Email->send();
 			foreach ($contract['ClientsManager'] as $email):
 			   	$this->Email->to = $email['email'];
 			   	$this->Email->toName = $email['firstname'].' '.$email['firstname'];
-				$result = $this->Email->send();
+				// $result = $this->Email->send();
 				$this->Invoice->InvoicesPostLog->create();
 				$reminderlog = array();
 				$reminderlog['InvoicesPostLog']['invoice_id'] = $invoice['Invoice']['id'];
@@ -676,7 +676,7 @@ class RemindersController  extends AppController {
 	 		foreach ($contract['User'] as $email):
 			   	$this->Email->toName = $email['firstname']. ' '.$email['lastname'];
 			   	$this->Email->to = $email['email'];
-				$result = $this->Email->send();
+				// $result = $this->Email->send();
 				$this->Invoice->InvoicesPostLog->create();
 				$reminderlog = array();
 				$reminderlog['InvoicesPostLog']['invoice_id'] = $invoice['Invoice']['id'];
@@ -688,72 +688,7 @@ class RemindersController  extends AppController {
 		}
 	}
 
-    function m_post($id=null)
-    {
-        $this->layout = "default_jqmobile";
-        if (!$id && empty($this->data)) {
-            $this->Session->setFlash(__('Invalid Invoice', true));
-            $this->redirect(array('action'=>'index'));
-        }
-
-        if (empty($this->data)) {
-
-
-            $invoice = $this->Invoice->mark_posted($id);
-
-            // Contract
-            $contract =  $this->Invoice->contractForInvoicing($invoice['Invoice']['contract_id']);
-            // Client
-            $client =  $this->Invoice->clientForInvoicing($contract['ClientsContract']['client_id']);
-            // Employee
-            $employee =  $this->Invoice->employeeForInvoicing($contract['ClientsContract']['employee_id']);
-
-            $filename = 'rocketsredglare_invoice_'.$invoice['Invoice']['id'].'_'.$employee['Employee']['firstname'].'_'.$employee['Employee']['lastname'].'_'.$invoice['Invoice']['period_start'].'_to_'.$invoice['Invoice']['period_end'].'.pdf';
-            $this->generatepdf($invoice['Invoice']['id']);
-
-
-            $this->Email->to = 'invoicetest@fogtest.com';
-            $this->Email->toName = 'Invoice Tester';
-
-            $subject = $this->invoiceFunction->email_subject($invoice, $employee);
-            $filename = $this->invoiceFunction->invoiceFilename($invoice,$employee);
-            $fully_qualified_filename =$this->invoiceFunction->invoiceFullyQualifiedFilename($invoice,$employee,$this->xml_home);
-
-
-            $this->Email->subject = $subject;
-            $this->Email->from         = 'timecards@rocketsredglare.com';
-            $this->Email->fromName     = "Rockets Redglare Invoices";
-            $this->Email->attach($fully_qualified_filename, $filename);
-
-
-            $this->Email->body = $this->invoiceFunction->emailBody($invoice,$subject,$employee, $this->server);
-            $result = $this->Email->send();
-            foreach ($contract['ClientsManager'] as $email):
-                $this->Email->to = $email['email'];
-                $this->Email->toName = $email['firstname'].' '.$email['firstname'];
-                $result = $this->Email->send();
-                $this->Invoice->InvoicesPostLog->create();
-                $reminderlog = array();
-                $reminderlog['InvoicesPostLog']['invoice_id'] = $invoice['Invoice']['id'];
-                $reminderlog['InvoicesPostLog']['email'] = $email['email'];
-                $reminderlog['InvoicesPostLog']['timestamp'] = date("Y").'-'.date("m").'-'.date("d").' '.date("H").':'.date("i").':'.date("s");
-                $this->Invoice->InvoicesPostLog->save($reminderlog);
-            endforeach;
-            foreach ($contract['User'] as $email):
-                $this->Email->toName = $email['firstname']. ' '.$email['lastname'];
-                $this->Email->to = $email['email'];
-                $result = $this->Email->send();
-                $this->Invoice->InvoicesPostLog->create();
-                $reminderlog = array();
-                $reminderlog['InvoicesPostLog']['invoice_id'] = $invoice['Invoice']['id'];
-                $reminderlog['InvoicesPostLog']['email'] = $email['email'];
-                $reminderlog['InvoicesPostLog']['timestamp'] = date("Y").'-'.date("m").'-'.date("d").' '.date("H").':'.date("i").':'.date("s");
-                $this->Invoice->InvoicesPostLog->save($reminderlog);
-            endforeach;
-            $this->redirect(array('prefix'=>'m','action'=>'timecards'));
-        }
-    }
-	function resend_to_staff($id=null)  
+    function resend_to_staff($id=null)  
     {
         Configure::write('debug', 2);
         if (!$id && empty($this->data)) {
@@ -796,11 +731,11 @@ class RemindersController  extends AppController {
 
 
 	        $this->Email->body = $this->invoiceFunction->emailBody($invoice, $subject, $employee, $this->server);
-	        $result = $this->Email->send();
+	        // $result = $this->Email->send();
 	 		foreach ($contract['User'] as $email):
 			   	$this->Email->toName = $email['firstname']. ' '.$email['lastname'];
 			   	$this->Email->to = $email['email'];
-				$result = $this->Email->send();
+				// $result = $this->Email->send();
 				$this->Invoice->InvoicesPostLog->create();
 				$reminderlog = array();
 				$reminderlog['InvoicesPostLog']['invoice_id'] = $invoice['Invoice']['id'];
@@ -845,11 +780,11 @@ class RemindersController  extends AppController {
             $this->Email->attach($fully_qualified_filename, $new_name_when_attached);
 
             $this->Email->body = $this->invoiceFunction->emailBody($invoice,$subject,$employee, $this->server);
-            $result = $this->Email->send();
+            // $result = $this->Email->send();
             foreach ($contract['User'] as $email):
                 $this->Email->toName = $email['firstname']. ' '.$email['lastname'];
                 $this->Email->to = $email['email'];
-                $result = $this->Email->send();
+                // $result = $this->Email->send();
                 $this->Invoice->InvoicesPostLog->create();
                 $reminderlog = array();
                 $reminderlog['InvoicesPostLog']['invoice_id'] = $invoice['Invoice']['id'];
@@ -907,11 +842,11 @@ class RemindersController  extends AppController {
             $new_name_when_attached=$filename; //optional
             $this->Email->attach($fully_qualified_filename, $new_name_when_attached);
             $this->Email->body = $this->invoiceFunction->emailBody($invoice,$subject,$employee, $this->server);
-            $result = $this->Email->send();
+            // $result = $this->Email->send();
             foreach ($contract['User'] as $email):
                 $this->Email->toName = $email['firstname']. ' '.$email['lastname'];
                 $this->Email->to = $email['email'];
-                $result = $this->Email->send();
+                // $result = $this->Email->send();
                 $this->Invoice->InvoicesPostLog->create();
                 $reminderlog = array();
                 $reminderlog['InvoicesPostLog']['invoice_id'] = $invoice['Invoice']['id'];

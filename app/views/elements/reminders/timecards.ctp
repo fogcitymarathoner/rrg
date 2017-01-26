@@ -6,7 +6,7 @@
 	{
 		$res = '<div style=" display: block; float:left"><h2>Timecards for Invoicing</h2>
 <p>
-
+Invoices may be found here after preview /php-apps/cake.rocketsredglare.com/biz/data/invoices/
 </p>
 
 <table cellpadding = "3" cellspacing = "3" border=1 >
