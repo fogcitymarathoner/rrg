@@ -91,7 +91,7 @@ class AppController extends Controller {
        	$this->Auth->loginAction = array('prefix'=>'m','controller' => 'users', 'action' => 'login');
       	$this->Auth->loginRedirect = array('prefix'=>'m','controller' => 'reminders', 'action' => 'index');
        	$this->Auth->allow('login','display','new_user_session','m_new_user_session');
-       	$this->Auth->logoutRedirect = array('controller' => 'pages', 'action' => 'home');
+       	$this->Auth->logoutRedirect = array('controller' => 'pages', 'action' => 'home', 'soap_python_view', 'soap_python_index');
 		$this->Auth->loginError = 'No username and password was found with that combination.';
 		$this->AutoLogin->cookieName =Configure::read('cookie_name'); // 'cakerrgautologin';
         $this->xml_home = Configure::read('xml_home');

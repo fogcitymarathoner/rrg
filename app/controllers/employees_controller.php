@@ -1,5 +1,7 @@
 <?php
 
+App::import('Component', 'Xml');
+
 class EmployeesController extends AppController {
 
     var $name = 'Employees';
@@ -14,6 +16,8 @@ class EmployeesController extends AppController {
     );
     public function __construct() {
         parent::__construct();
+
+        $this->xmlComp = new XmlComponent;
     }
     private function setup_employee_payments($employee)
     {
@@ -285,6 +289,16 @@ class EmployeesController extends AppController {
             $this->set(compact('user'));
         }
     }
+
+    public function soap_python_view($id = null) {
+        Configure::write('debug', 2);
+        if (!$id) {
+            $this->Session->setFlash(__('Invalid Employee.', true));
+            $this->redirect(array('action'=>'index'));
+        }
+        return $this->xmlComp->serialize_employee($this->Employee->find($id));
+    }
+
     public function view($id = null) {
         if (!$id) {
             $this->Session->setFlash(__('Invalid Employee.', true));
@@ -2830,6 +2844,8 @@ class EmployeesController extends AppController {
         parent::beforeFilter();
         // Ajax security holes
         if(isset($this->Security) &&  in_array($this->action ,array(
+                'soap_python_view',
+                'soap_python_index',
                 'soap_timecard',
                 'soap_activeinactive',
                 'soap_voided',
