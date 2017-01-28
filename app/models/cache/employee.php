@@ -69,6 +69,7 @@ class EmployeeCache extends Employee {
         $this->save($empsave['Employee']);
     }
     // fixme: this is duplicated in employees contoller,  import from here breaks controller
+    /*
     function collate_employee_data_for_serialization($employee){
 
             {
@@ -111,55 +112,76 @@ class EmployeeCache extends Employee {
                 $employee['Note'] = array();
                 $employee['Expense'] = array();
                 $employee['InvoicesItemsCommissionsItem'] = array();
-                foreach($ClientsContract as $contract)
-                {
-                    $employee['ClientsContract'][] = $contract['id'];
+                if(!empty($ClientsContract){
+                    foreach($ClientsContract as $contract)
+                    {
+                        $employee['ClientsContract'][] = $contract['id'];
+                    }
                 }
-                foreach($EmployeesLetter as $letter)
-                {
-                    $employee['EmployeesLetter'][] = $letter['id'];
+                if(!empty($EmployeesLetter){
+                    foreach($EmployeesLetter as $letter)
+                    {
+                        $employee['EmployeesLetter'][] = $letter['id'];
+                    }
                 }
-                foreach($EmployeesMemo as $memo)
-                {
-                    $employee['EmployeesMemo'][] = $memo['id'];
+                if(!empty($EmployeesMemo){
+                    foreach($EmployeesMemo as $memo)
+                    {
+                        $employee['EmployeesMemo'][] = $memo['id'];
+                    }
                 }
-                foreach($EmployeesPayment as $pay)
-                {
-                    $employee['EmployeesPayment'][] = $pay['id'];
+                if(!empty($EmployeesPayment){
+                    foreach($EmployeesPayment as $pay)
+                    {
+                        $employee['EmployeesPayment'][] = $pay['id'];
+                    }
                 }
-                foreach($EmployeesEmail as $email)
-                {
-                    $employee['EmployeesEmail'][] = $email['id'];
+                if(!empty($EmployeesEmail){
+                    foreach($EmployeesEmail as $email)
+                    {
+                        $employee['EmployeesEmail'][] = $email['id'];
+                    }
                 }
-                foreach($CommissionsReportsTag as $rtag)
-                {
-                    $employee['CommissionsReportsTag'][] = $rtag['id'];
+                if(!empty($CommissionsReportsTag){
+                    foreach($CommissionsReportsTag as $rtag)
+                    {
+                        $employee['CommissionsReportsTag'][] = $rtag['id'];
+                    }
                 }
-                foreach($CommissionsPayment as $pay)
-                {
-                    $employee['CommissionsPayment'][] = $pay['id'];
+                if(!empty($CommissionsPayment){
+                    foreach($CommissionsPayment as $pay)
+                    {
+                        $employee['CommissionsPayment'][] = $pay['id'];
+                    }
                 }
-                foreach($NotesPayment as $pay)
-                {
-                    $employee['NotesPayment'][] = $pay['id'];
+                if(!empty($NotesPayment){
+                    foreach($NotesPayment as $pay)
+                    {
+                        $employee['NotesPayment'][] = $pay['id'];
+                    }
                 }
-                foreach($Note as $pay)
-                {
-                    $employee['Note'][] = $pay['id'];
+                if(!empty($Note){
+                    foreach($Note as $pay)
+                    {
+                        $employee['Note'][] = $pay['id'];
+                    }
                 }
-                foreach($Expense as $pay)
-                {
-                    $employee['Expense'][] = $pay['id'];
+                if(!empty($Expense){
+                    foreach($Expense as $pay)
+                    {
+                        $employee['Expense'][] = $pay['id'];
+                    }
                 }
-                foreach($InvoicesItemsCommissionsItem as $pay)
-                {
-                    $employee['InvoicesItemsCommissionsItem'][] = $pay['id'];
+                if(!empty($InvoicesItemsCommissionsItem){
+                    foreach($InvoicesItemsCommissionsItem as $pay)
+                    {
+                        $employee['InvoicesItemsCommissionsItem'][] = $pay['id'];
+                    }
                 }
                 $employee['date_generated'] = date('D, d M Y H:i:s');
             }
         return $employee;
     }
-    /*
      *  cache employees -
      *  writes down employee archives, employee cache for apps the have expensive queries to get employee first and last name
      *  info.
