@@ -1,6 +1,7 @@
 <?php
 
 App::import('Component', 'Xml');
+App::import('Model', 'cache/employee');
 
 class EmployeesController extends AppController {
 
@@ -18,6 +19,7 @@ class EmployeesController extends AppController {
         parent::__construct();
 
         $this->xmlComp = new XmlComponent;
+        $this->CacheEmployee = new CacheEmployee;
     }
     private function setup_employee_payments($employee)
     {
@@ -296,7 +298,7 @@ class EmployeesController extends AppController {
             $this->Session->setFlash(__('Invalid Employee.', true));
             $this->redirect(array('action'=>'index'));
         }
-        return $this->xmlComp->serialize_employee($this->Employee->read(null, $id));
+        return $this->xmlComp->serialize_employee($this->CacheEmployee->collate_employee_data_for_serialization($this->Employee->read(null, $id)));
     }
 
     public function view($id = null) {

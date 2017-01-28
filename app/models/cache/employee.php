@@ -68,33 +68,9 @@ class EmployeeCache extends Employee {
         $empsave['Employee']['Employee']['last_sync_time'] = date('Y-m-d H:i:s');
         $this->save($empsave['Employee']);
     }
-    /*
-     *  cache employees -
-     *  writes down employee archives, employee cache for apps the have expensive queries to get employee first and last name
-     *  info.
-     *  sets down work for django
-     *  picks up work from django
-     *
-     * Miscellaneous notes:
-     * caching inactives needs to be rewritten
-     * if it exists, search and add primary key if it is not there.
-     */
-    function cache_employees() {
-        Configure::write('debug',2);
 
-        echo 'Caching employees into archive...';
-        ini_set('memory_limit', '-1');
-        $this->xml_home = Configure::read('xml_home');
-        $employees = $this->find('all');
-        $employeesJS  = array();
-        $employeesJS['employees']  = array();
-        $actives  = array();
-        $actives['employees'] = array();
-        $inactives  = array();
-        $inactives['employees'] = array();
-        foreach ($employees as $employee)
-        {
-            if( $employee['Employee']['voided']!= 1)
+    function collate_employee_data_for_serialization($employee){
+
             {
                 $emp_array = array('id' => $employee['Employee']['id'],
                     'name' => $employee['Employee']['firstname'].' '. $employee['Employee']['lastname']);
@@ -180,16 +156,48 @@ class EmployeeCache extends Employee {
                     $employee['InvoicesItemsCommissionsItem'][] = $pay['id'];
                 }
                 $employee['date_generated'] = date('D, d M Y H:i:s');
+            }
+        return $employee;
+    }
+    /*
+     *  cache employees -
+     *  writes down employee archives, employee cache for apps the have expensive queries to get employee first and last name
+     *  info.
+     *  sets down work for django
+     *  picks up work from django
+     *
+     * Miscellaneous notes:
+     * caching inactives needs to be rewritten
+     * if it exists, search and add primary key if it is not there.
+     */
+    function cache_employees() {
+        Configure::write('debug',2);
+
+        echo 'Caching employees into archive...';
+        ini_set('memory_limit', '-1');
+        $this->xml_home = Configure::read('xml_home');
+        $employees = $this->find('all');
+        $employeesJS  = array();
+        $employeesJS['employees']  = array();
+        $actives  = array();
+        $actives['employees'] = array();
+        $inactives  = array();
+        $inactives['employees'] = array();
+        foreach ($employees as $employee)
+        {
+            if( $employee['Employee']['voided']!= 1)
+            {
+                $employee = collate_employee_data_for_serialization($employee);
                 $fixfilename = $this->xml_home.'employees/'.str_pad((string)$employee['Employee']['id'], 5, "0", STR_PAD_LEFT).'.xml';
-                if(!file_exists (  $fixfilename ) )
-                {
+                if(!file_exists ($fixfilename ) ) 
+                {   
                     $this->sync($employee,$fixfilename);
-                }
+                }   
                 else
-                {
-                    /*
+                {   
+                    /*  
                      * Look for work from django on it's way back
-                     */
+                     */  
                     $f = fopen($fixfilename,'r');
                     $fsize = filesize($fixfilename);
                     $userializer = &new XML_Unserializer();
@@ -197,15 +205,14 @@ class EmployeeCache extends Employee {
                     fclose($f);
                     $userializer->unserialize($doc);
                     $employeeTransmittal = $userializer->getUnserializedData ( );
-                    /*
-                     * optimize a little by skipping inactives.  should be ok if refreshes are done diligently before any record deletions
-                     */
+                    /*  
+                     * optimize a little by skipping inactives.  should be ok if refreshes are done diligently before any record deletions                     */
 
                     if (strtotime($employee['Employee']['modified_date']) > strtotime($employee['Employee']['last_sync_time']))
-                    {
+                    {   
                         $this->sync($employee,$fixfilename);
-                    }
-                }
+                    }       
+                } 
             }
         }
         //end foreach
