@@ -68,7 +68,7 @@ class EmployeeCache extends Employee {
         $empsave['Employee']['Employee']['last_sync_time'] = date('Y-m-d H:i:s');
         $this->save($empsave['Employee']);
     }
-
+    // fixme: this is duplicated in employees contoller,  import from here breaks controller
     function collate_employee_data_for_serialization($employee){
 
             {

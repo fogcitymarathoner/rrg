@@ -1,7 +1,6 @@
 <?php
 
 App::import('Component', 'Xml');
-App::import('Model', 'cache/employee');
 
 class EmployeesController extends AppController {
 
@@ -19,7 +18,6 @@ class EmployeesController extends AppController {
         parent::__construct();
 
         $this->xmlComp = new XmlComponent;
-        $this->CacheEmployee = new CacheEmployee;
     }
     private function setup_employee_payments($employee)
     {
@@ -291,14 +289,104 @@ class EmployeesController extends AppController {
             $this->set(compact('user'));
         }
     }
+    // fixme: this is duplicated in models/cache/employee.php import does not work
+    function collate_employee_data_for_serialization($employee){
 
+            {
+                $emp_array = array('id' => $employee['Employee']['id'],
+                    'name' => $employee['Employee']['firstname'].' '. $employee['Employee']['lastname']);
+                if($employee['Employee']['active'] == 1 )
+                {
+                    $actives['employees'][] = $emp_array;
+                } else {
+                    $inactives['employees'][] = $emp_array;;
+                }
+                $emails = array();
+                if(!empty($employee['EmployeesEmail']))
+                {
+                    foreach($employee['EmployeesEmail'] as $empemail)
+                    {
+                        $emails[]= $empemail['email'];
+                    }
+                }
+                $employeesJS['employees'][$employee['Employee']['id']] = array('id'=>$employee['Employee']['id'],'first'=>$employee['Employee']['firstname'],'last'=>$employee['Employee']['lastname'],'active'=>$employee['Employee']['active'],'emails'=>$emails);
+                $ClientsContract =$employee['ClientsContract'];
+                $EmployeesLetter =$employee['EmployeesLetter'];
+                $EmployeesMemo = $employee['EmployeesMemo'];
+                $EmployeesPayment =$employee['EmployeesPayment'];
+                $EmployeesEmail =$employee['EmployeesEmail'];
+                $CommissionsReportsTag =$employee['CommissionsReportsTag'];
+                $CommissionsPayment =$employee['CommissionsPayment'] ;
+                $NotesPayment =$employee['NotesPayment'];
+                $Note =$employee['Note'] ;
+                $Expense =$employee['Expense'];
+                $InvoicesItemsCommissionsItem =$employee['InvoicesItemsCommissionsItem'];
+                $employee['ClientsContract'] = array();
+                $employee['EmployeesLetter'] = array();
+                $employee['EmployeesMemo'] = array();
+                $employee['EmployeesPayment'] = array();
+                $employee['EmployeesEmail'] = array();
+                $employee['CommissionsReportsTag'] = array();
+                $employee['CommissionsPayment'] = array();
+                $employee['NotesPayment'] = array();
+                $employee['Note'] = array();
+                $employee['Expense'] = array();
+                $employee['InvoicesItemsCommissionsItem'] = array();
+                foreach($ClientsContract as $contract)
+                {
+                    $employee['ClientsContract'][] = $contract['id'];
+                }
+                foreach($EmployeesLetter as $letter)
+                {
+                    $employee['EmployeesLetter'][] = $letter['id'];
+                }
+                foreach($EmployeesMemo as $memo)
+                {
+                    $employee['EmployeesMemo'][] = $memo['id'];
+                }
+                foreach($EmployeesPayment as $pay)
+                {
+                    $employee['EmployeesPayment'][] = $pay['id'];
+                }
+                foreach($EmployeesEmail as $email)
+                {
+                    $employee['EmployeesEmail'][] = $email['id'];
+                }
+                foreach($CommissionsReportsTag as $rtag)
+                {
+                    $employee['CommissionsReportsTag'][] = $rtag['id'];
+                }
+                foreach($CommissionsPayment as $pay)
+                {
+                    $employee['CommissionsPayment'][] = $pay['id'];
+                }
+                foreach($NotesPayment as $pay)
+                {
+                    $employee['NotesPayment'][] = $pay['id'];
+                }
+                foreach($Note as $pay)
+                {
+                    $employee['Note'][] = $pay['id'];
+                }
+                foreach($Expense as $pay)
+                {
+                    $employee['Expense'][] = $pay['id'];
+                }
+                foreach($InvoicesItemsCommissionsItem as $pay)
+                {
+                    $employee['InvoicesItemsCommissionsItem'][] = $pay['id'];
+                }
+                $employee['date_generated'] = date('D, d M Y H:i:s');
+            }
+        return $employee;
+    }
     public function soap_python_view($id = null) {
         Configure::write('debug', 2);
         if (!$id) {
             $this->Session->setFlash(__('Invalid Employee.', true));
             $this->redirect(array('action'=>'index'));
         }
-        return $this->xmlComp->serialize_employee($this->CacheEmployee->collate_employee_data_for_serialization($this->Employee->read(null, $id)));
+        return $this->xmlComp->serialize_employee(collate_employee_data_for_serialization($this->Employee->read(null, $id)));
     }
 
     public function view($id = null) {
