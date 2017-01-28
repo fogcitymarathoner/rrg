@@ -332,67 +332,67 @@ class EmployeesController extends AppController {
                 $employee['Note'] = array();
                 $employee['Expense'] = array();
                 $employee['InvoicesItemsCommissionsItem'] = array();
-                if(!empty($ClientsContract){
+                if(!empty($ClientsContract)){
                     foreach($ClientsContract as $contract)
                     {
                         $employee['ClientsContract'][] = $contract['id'];
                     }
                 }
-                if(!empty($EmployeesLetter){
+                if(!empty($EmployeesLetter)){
                     foreach($EmployeesLetter as $letter)
                     {
                         $employee['EmployeesLetter'][] = $letter['id'];
                     }
                 }
-                if(!empty($EmployeesMemo){
+                if(!empty($EmployeesMemo)){
                     foreach($EmployeesMemo as $memo)
                     {
                         $employee['EmployeesMemo'][] = $memo['id'];
                     }
                 }
-                if(!empty($EmployeesPayment){
+                if(!empty($EmployeesPayment)){
                     foreach($EmployeesPayment as $pay)
                     {
                         $employee['EmployeesPayment'][] = $pay['id'];
                     }
                 }
-                if(!empty($EmployeesEmail){
+                if(!empty($EmployeesEmail)){
                     foreach($EmployeesEmail as $email)
                     {
                         $employee['EmployeesEmail'][] = $email['id'];
                     }
                 }
-                if(!empty($CommissionsReportsTag){
+                if(!empty($CommissionsReportsTag)){
                     foreach($CommissionsReportsTag as $rtag)
                     {
                         $employee['CommissionsReportsTag'][] = $rtag['id'];
                     }
                 }
-                if(!empty($CommissionsPayment){
+                if(!empty($CommissionsPayment)){
                     foreach($CommissionsPayment as $pay)
                     {
                         $employee['CommissionsPayment'][] = $pay['id'];
                     }
                 }
-                if(!empty($NotesPayment){
+                if(!empty($NotesPayment)){
                     foreach($NotesPayment as $pay)
                     {
                         $employee['NotesPayment'][] = $pay['id'];
                     }
                 }
-                if(!empty($Note){
+                if(!empty($Note)){
                     foreach($Note as $pay)
                     {
                         $employee['Note'][] = $pay['id'];
                     }
                 }
-                if(!empty($Expense){
+                if(!empty($Expense)){
                     foreach($Expense as $pay)
                     {
                         $employee['Expense'][] = $pay['id'];
                     }
                 }
-                if(!empty($InvoicesItemsCommissionsItem){
+                if(!empty($InvoicesItemsCommissionsItem)){
                     foreach($InvoicesItemsCommissionsItem as $pay)
                     {
                         $employee['InvoicesItemsCommissionsItem'][] = $pay['id'];
