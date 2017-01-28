@@ -387,7 +387,9 @@ class EmployeesController extends AppController {
             $this->Session->setFlash(__('Invalid Employee.', true));
             $this->redirect(array('action'=>'index'));
         }
-        $this->set('payload',  $this->xmlComp->serialize_employee($this->collate_employee_data_for_serialization($this->Employee->read(null, $id))));
+        $encryptedEmployee = $this->Employee->read(null, $id);
+        $decryptedEmployee = $this->Employee->decrypt($encryptedEmployee);
+        $this->set('payload',  $this->xmlComp->serialize_employee($this->collate_employee_data_for_serialization($decryptedEmployee)));
     }
 
     public function view($id = null) {
