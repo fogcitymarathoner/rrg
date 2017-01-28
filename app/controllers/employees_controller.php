@@ -381,6 +381,7 @@ class EmployeesController extends AppController {
         return $employee;
     }
     public function soap_python_view($id = null) {
+        $this->layout = Null;
         Configure::write('debug', 2);
         if (!$id) {
             $this->Session->setFlash(__('Invalid Employee.', true));
