@@ -296,7 +296,7 @@ class EmployeesController extends AppController {
             $this->Session->setFlash(__('Invalid Employee.', true));
             $this->redirect(array('action'=>'index'));
         }
-        return $this->xmlComp->serialize_employee($this->Employee->find($id));
+        return $this->xmlComp->serialize_employee($this->Employee->read(null, $id));
     }
 
     public function view($id = null) {
