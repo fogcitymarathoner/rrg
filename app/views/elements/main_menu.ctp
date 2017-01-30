@@ -26,7 +26,6 @@ $topmenu .= '	<ul class="jd_menu" id="nav">';
     $topmenu .= '		<li><a href="'.$webroot.'invoices/"  >Invoices</a></li>';
     $topmenu .= '		<li><a href="'.$webroot.'resumes/"  >Resumes</a></li>';
     $topmenu .= '		<li><a href="'.$webroot.'payrolls/"  >Payroll</a></li>';
-    $topmenu .= '		<li><a href="'.$webroot.'employees/"  >Employees</a></li>';
     $topmenu .= '		<li><a href="'.$webroot.'employees_payments/"  >Paychecks</a></li>';
     $topmenu .= '		<li><a href="'.$webroot.'expenses/"  >Expenses</a></li>';
     $topmenu .= "		<li><a href='{$webroot}vendors' >Vendors</a>";
