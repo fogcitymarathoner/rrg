@@ -15,8 +15,6 @@ App::import('Model', 'cache/reminder');
 
 App::import('Model', 'cache/client');
 
-
-App::import('Model', 'cache/clients_check');
 class SettingsController extends AppController {
     var $uses = array();
     var $name = 'Settings';
@@ -25,7 +23,6 @@ class SettingsController extends AppController {
         'order' => 'date desc',
         'contain' => array('Post'),
     );
-
 
     public function __construct() {
 
@@ -37,14 +34,12 @@ class SettingsController extends AppController {
 
         $this->clientCacheModel = new ClientCache;
 
-
-        $this->checksModel = new ClientsCheckCache;
         parent::__construct();
     }
+
     public function index($page=1) {
         $this->set('database', get_class_vars('DATABASE_CONFIG'));
         $this->set('xml_home', Configure::read('xml_home'));
     }
-
 
 }
