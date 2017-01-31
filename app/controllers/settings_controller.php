@@ -13,7 +13,6 @@ App::import('Model', 'cache/employee');
 App::import('Model', 'cache/invoice');
 App::import('Model', 'cache/reminder');
 
-App::import('Model', 'cache/client');
 
 class SettingsController extends AppController {
     var $uses = array();
@@ -31,8 +30,6 @@ class SettingsController extends AppController {
         $this->InvoiceCache = new Invoice;
 
         $this->reminderModel = new ReminderCache;
-
-        $this->clientCacheModel = new ClientCache;
 
         parent::__construct();
     }
