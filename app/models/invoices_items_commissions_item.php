@@ -105,38 +105,6 @@ class InvoicesItemsCommissionsItem extends AppModel {
         }
     }
 
-    function fix_commitems()
-    {
-        $items = $this->find('all',Null);
-        foreach($items as $item)
-        {
-            //debug($item['InvoicesItemsCommissionsItem']);
-            $emp_id = $item['InvoicesItemsCommissionsItem']['employee_id'];
-            //debug($item['InvoicesItemsCommissionsItem']['employee_id']);
-            //debug($item['InvoicesItem']);
-            //debug($item['InvoicesItem']['invoice_id']);
-            $this->InvoicesItem->Invoice->recursive = 2;
-            $inv = $this->InvoicesItem->Invoice->read(Null, $item['InvoicesItem']['invoice_id']);
-            //debug($inv);//exit;
-            $rel_inv_amt = 0 ;
-            foreach($inv['InvoicesItem'] as $Iitem)
-            {
-                foreach ($Iitem['InvoicesItemsCommissionsItem'] as $commitem)
-                {//debug($commitem);
-                    if($commitem['employee_id']== $emp_id && !$commitem['voided'])
-                    {
-                        //debug($commitem);
-
-                        $rel_inv_amt += $commitem['rel_item_amt']*$commitem['rel_item_quantity'];
-                    }
-                }
-            }
-            //debug($rel_inv_amt);
-            $item['InvoicesItemsCommissionsItem']['rel_inv_amt']= $rel_inv_amt;
-            $this->save($item);
-        }
-            }
-
 }
 
 
