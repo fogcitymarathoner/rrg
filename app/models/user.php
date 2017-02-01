@@ -6,7 +6,6 @@ class User extends AppModel {
 	var $hasMany = array(
 		);
     var $hasOne = array(
-        'Profile' => array(
         'className' => 'Profile',
         'dependent' => true
         )
