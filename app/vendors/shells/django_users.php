@@ -41,12 +41,6 @@ class DjangoUsersShell extends Shell {
     	
     	App::import('Controller', 'App');
     	App::import('Model', 'Employee');
-    	//App::import('Controller', 'Employees');
-    	//App::import('Model', 'Reminder');
-    	//App::import('Model', 'CommissionsReport');
-    	//App::import('Model', 'CommissionsReportsTag');
-    	//App::import('Model', 'Invoice');
-    	//pp::import('Component', 'TokenHelper');
     	$employeeModel = new Employee;
     	$employees = $employeeModel->find('all');
     	foreach($employees as $employee):

@@ -13,7 +13,6 @@ App::import('Component', 'FixtureDirectories');
 App::import('Component', 'InvoiceFunction');
 App::import('Component', 'Json');
 App::import('Component', 'FixtureDirectories');
-App::import('Component', 'TokenHelper');
 
 App::import('Model', 'Invoice');
 App::import('Model', 'CommissionsReport');
@@ -42,7 +41,6 @@ class Reminder extends AppModel {
         $this->jsonComp = new JsonComponent;
         $this->xml_home = Configure::read('xml_home');
 
-        $this->Tk = new TokenHelperComponent;
 
         $this->ClientsContract = new ClientsContract;
 

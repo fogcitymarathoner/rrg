@@ -48,7 +48,6 @@ foreach($keys as $key) {
 </script>
 <table id="atable">
 </table>
-<?php echo $form->create('Clients',array('action'=>'add_invoice/'.$client_id.'/3','name'=>'invoice_form'));?>
 	<fieldset>
  		<legend><?php __('Add Invoice');?></legend>
 		<?php

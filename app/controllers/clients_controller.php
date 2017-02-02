@@ -1611,116 +1611,7 @@ class ClientsController extends AppController {
         $clients = $this->Client->ClientsSearch->Client->find('list');
         $this->set(compact('resumes', 'clients'));
     }
-    public function add_invoice($client_id=null,$step=1,$contract_id=null,$period_id=null) {
-        $this->set(compact('step'));
-        if($step == 1) // Generate contract list of client, pick Contract
-        {
-            $this->Client->ClientsContract->recursion = 2;
-            $this->Client->ClientsContract->unbindModel(array('hasMany' => array('Invoice','ContractsItem','ClientsManager'),),false);
-            $contracts = $this->Client->ClientsContract->find('all',
-                array('conditions'=>array('client_id'=>$client_id, 'ClientsContract.active'=>1)));
-            $contractsMenu = array();
-            foreach ($contracts as $contract)
-            {
-                $contractsMenu[$contract['ClientsContract']['id']] = $contract['Employee']['firstname'].' '.$contract['Employee']['lastname'];
-            }
-            $this->set(compact('contractsMenu'));
-            $this->set('client_id',$client_id);
-        }
-        if($step == 2) // Pick Period, enter hours
-        {
-            $this->Client->ClientsContract->recursion = 2;
-            $this->Client->ClientsContract->unbindModel(array('hasMany' => array('Invoice'),),false);
-            $this->Client->ClientsContract->unbindModel(array('hasAndBelongsToMany' => array('ClientsManager','User'),),false);
-            $contract = $this->Client->ClientsContract->read(null, $contract_id);
-            $this->set(compact('contract'));
-            $periodpicker = $this->InvoiceFunction->periodarray($contract);
-            $currentperiod = $this->InvoiceFunction->currentperiod($periodpicker);
-            $this->set('periodpicker',$periodpicker);
-            $this->set('currentperiod',$currentperiod);
-            $this->set('client_id',$contract['ClientsContract']['client_id']);
-        }
-        if($step == 3) // Commit Invoice to DB, offer other actions (preview pdf, post, edit [step 4]
-        {
-            $this->Client->ClientsContract->Invoice->recursive = 1;
-            $this->Client->ClientsContract->Invoice->InvoiceItem->recursive = 2;
-            $this->data['Invoice']['created_date'] = date('Y-m-d');
-            $this->set('client_id',$this->params['pass'][0]);
-            $contract = $this->Client->ClientsContract->read(null, $this->data['Invoice']['contract_id']);
-            $periodpicker = $this->InvoiceFunction->periodarray($contract);
-            $dates = explode('-',$periodpicker[$this->data['Invoice']['period_id']]);
-            $startdate = $dates[0];
-            $enddate = $dates[1];
-            $startdateex = explode('/',$startdate);
-            $enddateex = explode('/',$enddate);
 
-            $user = $this->Auth->user();
-            $this->data['Invoice']['created_user_id'] =$user['User']['id'];
-            $this->data['Invoice']['modified_user_id'] =$user['User']['id'];
-            $this->data['Invoice']['modified_date'] = date('Y-m-d');
-
-            $this->data['Invoice']['period_start'] = $startdateex[2].'-'.$startdateex[0].'-'.$startdateex[1];
-            $this->data['Invoice']['period_end'] = $enddateex[2].'-'.$enddateex[0].'-'.$enddateex[1];
-            $this->set('employees',$this->Client->ClientsContract->Employee->activeEmployees());
-            $invoiceID = $this->Client->ClientsContract->Invoice->add_dynamic($this->data,$this->Session);
-            $this->data = $this->Client->ClientsContract->Invoice->getInvoiceReview($invoiceID);
-        }
-    }
-
-    public function m_newInvoice($client_id=null,$step=1,$contract_id=null,$period_id=null) {
-        $this->set(compact('step'));
-
-        $this->layout = "default_jqmobile";
-        if($step == 1) // Generate contract list of client, pick Contract
-        {
-            $this->layout = "default_jqmobile";
-            $this->Client->ClientsContract->recursion = 2;
-            $this->Client->ClientsContract->unbindModel(array('hasMany' => array('Invoice','ContractsItem','ClientsManager'),),false);
-            $contracts = $this->Client->ClientsContract->find('all',
-                array('conditions'=>array('client_id'=>$client_id, 'ClientsContract.active'=>1)));
-            $contractsMenu = array();
-            foreach ($contracts as $contract)
-            {
-                $contractsMenu[$contract['ClientsContract']['id']] = $contract['Employee']['firstname'].' '.$contract['Employee']['lastname'];
-            }
-            $this->set(compact('contractsMenu'));
-            $this->set('client_id',$client_id);
-        }
-        if($step == 2) // Pick Period, enter hours
-        {
-            $this->layout = "default_jqmobile";
-            $this->Client->ClientsContract->recursion = 2;
-            $this->Client->ClientsContract->unbindModel(array('hasMany' => array('Invoice'),),false);
-            $this->Client->ClientsContract->unbindModel(array('hasAndBelongsToMany' => array('ClientsManager','User'),),false);
-            $contract = $this->Client->ClientsContract->read(null, $contract_id);
-            $this->set(compact('contract'));
-            $periodpicker = $this->InvoiceFunction->periodarray($contract);
-            $currentperiod = $this->InvoiceFunction->currentperiod($periodpicker);
-            $this->set('periodpicker',$periodpicker);
-            $this->set('currentperiod',$currentperiod);
-            $this->set('client_id',$contract['ClientsContract']['client_id']);
-        }
-        if($step == 3) // Commit Invoice to DB, offer other actions (preview pdf, post, edit [step 4]
-        {
-            $this->layout = "default_jqmobile";
-            $this->Client->ClientsContract->Invoice->recursion = 1;
-            $this->Client->ClientsContract->Invoice->InvoiceItem->recursion = 2;
-            $this->data['Invoice']['created_date'] = date('Y-m-d');
-            $this->set('client_id',$this->data['Invoice']['client_id']);
-            $contract = $this->Client->ClientsContract->read(null, $this->data['Invoice']['contract_id']);
-            $periodpicker = $this->InvoiceFunction->periodarray($contract);
-            $dates = explode('-',$periodpicker[$this->data['Invoice']['period_id']]);
-            $startdate = $dates[0];
-            $enddate = $dates[1];
-            $startdateex = explode('/',$startdate);
-            $enddateex = explode('/',$enddate);
-            $this->data['Invoice']['period_start'] = $startdateex[2].'-'.$startdateex[0].'-'.$startdateex[1];
-            $this->data['Invoice']['period_end'] = $enddateex[2].'-'.$enddateex[0].'-'.$enddateex[1];
-            $this->set('employees',$this->Client->ClientsContract->Employee->activeEmployees());
-            $invoiceID = $this->Client->ClientsContract->Invoice->add_dynamic($this->data,$this->Session);
-            $this->data = $this->Client->ClientsContract->Invoice->getInvoiceReview($invoiceID);
-        }
-    }
     public function edit_check($id = null) { // Just display advice to delete check an redo.  If the list of invoices on check is the same, then edit values in the check view.
         if (empty($this->data)) {
             $next = $this->params['named']['next'];
@@ -2482,7 +2373,6 @@ class ClientsController extends AppController {
                 'm_check_add',
                 'm_add_check_step3',
                 'm_add_check_step4',
-                'add_invoice',
                 'add_check',
                 'add_contract',
                 'edit_check',

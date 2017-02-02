@@ -29,7 +29,6 @@ class AppController extends Controller {
 			'Security',
 			'Search',
 			'PasswordHelper',
-			'TokenHelper',
 	        'Session',
             'RequestHandler',
             'HashUtils',

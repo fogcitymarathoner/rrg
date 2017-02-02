@@ -3,7 +3,6 @@
 App::import('Component', 'Xml');
 App::import('Component', 'Json');
 App::import('Component', 'FixtureDirectories');
-App::import('Component', 'TokenHelper');
 
 class ClientsContract extends AppModel {
 	var $name = 'ClientsContract';
@@ -103,7 +102,6 @@ class ClientsContract extends AppModel {
         $this->xmlComp = new XmlComponent;
         $this->dirComp = new FixtureDirectoriesComponent;
         $this->xml_home = Configure::read('xml_home');
-        $this->Tk = new TokenHelperComponent;
         parent::__construct();
     }
 	function beforeSave() { //debug($this);
@@ -133,11 +131,7 @@ class ClientsContract extends AppModel {
 	}
 	function add($contract)
 	{
-		
-
-		$token = $this->Tk->generatePassword();
 		$this->create();
-		;			
 		if ($this->save($contract)) {
 					
 				$contractID = $this->getLastInsertID();
@@ -152,7 +146,6 @@ class ClientsContract extends AppModel {
 				$invoice['Invoice']['mock'] = 1;
 				
 				$invoice['Invoice']['created_date'] = date('Y-m-d');	
-				$invoice['Invoice']['token'] = $token;
 				$invoice['Invoice']['view_count'] = 0;
 				$invoice['Invoice']['voided'] = 1;		
 				$user = 1;

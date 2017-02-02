@@ -9,7 +9,6 @@
 		
 
 	<!-- Invoices -->
-	<?php echo $html->link(__('New Invoice For Client', true), array('action'=>'add_invoice/'.$this->data['Client']['id'])); ?>
 	<?php echo $client->m_clients_contracts_pending_invoices_view($this->data['Invoice'],$next); ?>
 	
 	    </li>

@@ -9,7 +9,6 @@
     <a href="<?php echo $this->webroot.'clients/view_invoices_print/'.$this->data['Client']['id']?>" >View Printer Friendly Version</a>
 
 	<!-- Invoices -->
-	<?php echo $html->link(__('New Invoice For Client', true), array('action'=>'add_invoice/'.$this->data['Client']['id'])); ?>
 	<?php echo $client->clients_contracts_invoices_view($this->data['Invoice'],$next,0); ?>
 	
 	

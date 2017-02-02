@@ -636,155 +636,7 @@ class Invoice extends AppModel {
             return false;
         }
     }
-    // add invoice from javascript application
-    function add_dynamic($formdata,$session) {
-        if (!empty($formdata)) {
-
-            App::import('Component', 'TokenHelper');
-            $Tk = new TokenHelperComponent;
-            $token = $Tk->generatePassword();			// Fill in new invoice looked up values from Clients Contracts
-            $this->unbindContractModelForInvoicing();
-            $clientsContract = $this->ClientsContract->find('all',
-            array('conditions'=>array('ClientsContract.id'=>$formdata['Invoice']['contract_id'])));
-            //debug($clientsContract[0]['ClientsContract']);
-            $formdata['Invoice']['terms'] = $clientsContract[0]['ClientsContract']['terms'];
-            $formdata['Invoice']['employerexpenserate'] = $clientsContract[0]['ClientsContract']['employerexp'];
-            $formdata['Invoice']['po'] = $clientsContract[0]['ClientsContract']['po'];
-            $formdata['Invoice']['date'] = date('Y-m-d H:m:s');
-            $formdata['Invoice']['amount'] = 0;
-            $formdata['Invoice']['created_date'] = date('Y-m-d');
-            $formdata['Invoice']['modified_date'] = date('Y-m-d H:m:s');
-            $formdata['Invoice']['token'] = $token;
-            $formdata['Invoice']['view_count'] = 0;
-            $formdata['Invoice']['mock'] = 0;
-            foreach ($formdata['Item'] as $contractItem):
-                $formdata['Invoice']['amount']+=$contractItem['amt']*$contractItem['cost'];
-            endforeach;
-            $this->create();
-            $this->save($formdata);
-            $invoiceID = $this->getLastInsertID();
-            $session->setFlash(__('Invoice saved.', true));
-            $invoiceID = $this->getLastInsertID();
-            $this->ClientsContract->ContractsItem->unbindModel(array('hasMany' => array('ContractsItemsCommissionsItem'),),false);
-            $this->ClientsContract->ContractsItem->unbindModel(array('belongsTo' => array('ClientsContract'),),false);
-            $contractItems = $this->ClientsContract->ContractsItem->find('all',array('conditions'=>array('Contract_id'=>$formdata['Invoice']['contract_id'])));
-
-            foreach ($formdata['Item'] as $contractItem):
-                if($contractItem['id']!=99999)
-                {
-                    $item = array();
-                    $this->InvoicesItem->create();
-                    $item['InvoicesItem']['invoice_id']=$invoiceID;
-                    $item['InvoicesItem']['amount']=$contractItem['amt'];
-                    $item['InvoicesItem']['cost']=$contractItem['cost'];
-                    $item['InvoicesItem']['quantity']=$contractItem['quantity'];
-                    $item['InvoicesItem']['description']=$contractItem['description'];
-                    $this->InvoicesItem->save($item);
-                    $itemID = $this->InvoicesItem->getLastInsertID();
-                    $this->ClientsContract->ContractsItem->ContractsItemsCommissionsItem->unbindModel(array('belongsTo' => array('Employee','ContractsItems'),),false);
-                    $commissionsItems = $this->ClientsContract->ContractsItem->ContractsItemsCommissionsItem->find('all',array('conditions'=>array('contracts_items_id'=>$contractItem['id'])));
-                    foreach ($commissionsItems as $commissionsItem):
-                        $commissionsItemInsert = array();
-                        $this->InvoicesItem->InvoicesItemsCommissionsItem->create();
-                        $commissionsItemInsert['InvoicesItemsCommissionsItem']['employee_id']=$commissionsItem['ContractsItemsCommissionsItem']['employee_id'];
-                        $commissionsItemInsert['InvoicesItemsCommissionsItem']['invoices_item_id']=$itemID;
-                        $commissionsItemInsert['InvoicesItemsCommissionsItem']['percent']=$commissionsItem['ContractsItemsCommissionsItem']['percent'];
-
-                        $this->CommissionsReport = new CommissionsReport;
-                        # if sql date format, convert to form date
-                        if(substr($formdata['Invoice']['date'],4,1)=='-')
-                        {
-                            $date_exp = explode(' ',$formdata['Invoice']['date']);
-                            $date_part = $date_exp[0];
-                            $date_exp = explode('-',$date_part);
-                            $commdate = array();
-                            $commdate['year'] = $date_exp[0];
-                            $commdate['month'] = $date_exp[1];
-                            $commdate['day'] = $date_exp[2];
-                        }
-                        ;
-                        $datea = array();
-                        $datea['month'] = date("m",strtotime($commdate));
-                        $datea['year'] = date("Y",strtotime($commdate));
-                        $commissionsItemInsert['InvoicesItemsCommissionsItem']['commissions_report_id'] =
-                            $this->commsComp->reportID_fromdate($datea);
-                        $this->InvoicesItem->InvoicesItemsCommissionsItem->save($commissionsItemInsert);
-                    endforeach;
-                }
-            endforeach;
-            $this->void($invoiceID,$formdata['Invoice']['voided']) ;
-            return $invoiceID;
-        }
-        return false;
-    }
-    function save_dynamic($formdata) {
-        $msgs = array();
-        if (!empty($formdata)) {
-            $formdata['Invoice']['amount'] = 0;
-            if(isset($formdata['Item']))
-            {
-                foreach ($formdata['Item'] as $invItem):
-                    $formdata['Invoice']['amount']+=$invItem['quantity']*$invItem['amount'];
-                endforeach;
-            }
-            $formdata['Invoice']['modified_date'] = date('Y-m-d H:m:s');
-
-            $this->save($formdata);
-            $msgs[] = 'Invoice saved.';
-            if(isset($formdata['Item']))
-            {
-                foreach ($formdata['Item'] as $invItem):
-                    $item = array();
-                    $item['InvoicesItem']['invoice_id']=$formdata['Invoice']['id'];
-                    $item['InvoicesItem']['id']=$invItem['id'];
-                    $item['InvoicesItem']['amount']=$invItem['amount'];
-                    $item['InvoicesItem']['cost']=$invItem['cost'];
-                    $item['InvoicesItem']['quantity']=$invItem['quantity'];
-                    $item['InvoicesItem']['description']=$invItem['description'];
-                    $this->InvoicesItem->save($item);
-                endforeach;
-            }
-
-            return array($formdata['Invoice']['id'], $msgs);
-        }
-        return array(false, Null);
-    }
-
-    function save_dynamic_ajax($formdata, $session) {
-
-        if (!empty($formdata)) {
-            $formdata['Invoice']['amount'] = 0;
-            if(isset($formdata['Invoice']['InvoicesItem']['id']))
-            {
-                $i = 0 ;
-                foreach ($formdata['Invoice']['InvoicesItem']['id'] as $invItem):
-                    $formdata['Invoice']['amount']+= $formdata['Invoice']['InvoicesItem']['quantity'][$i] * $formdata['Invoice']['InvoicesItem']['amount'][$i];
-                    $i++;
-                endforeach;
-            }
-            $formdata['Invoice']['modified_date'] = date('Y-m-d H:m:s');
-            $this->save($formdata);
-            $session->setFlash(__('Invoice saved.', true));
-            if(isset($formdata['Invoice']['InvoicesItem']['id']))
-            {
-                $i = 0 ;
-                foreach ($formdata['Invoice']['InvoicesItem']['id'] as $invItem):
-                    $item = array();
-                    $item['InvoicesItem']['invoice_id']=$formdata['Invoice']['id'];
-                    $item['InvoicesItem']['id']=$formdata['Invoice']['InvoicesItem']['id'][$i];
-                    $item['InvoicesItem']['amount']=$formdata['Invoice']['InvoicesItem']['amount'][$i];
-                    $item['InvoicesItem']['cost']=$formdata['Invoice']['InvoicesItem']['cost'][$i];
-                    $item['InvoicesItem']['quantity']=$formdata['Invoice']['InvoicesItem']['quantity'][$i];
-                    $item['InvoicesItem']['description']=$formdata['Invoice']['InvoicesItem']['description'][$i];
-                    debug($item);
-                    $this->InvoicesItem->save($item);
-                    $i++;
-                endforeach;
-            }
-            return $formdata['Invoice']['id'];
-        }
-        return false;
-    }
+    
     public function getInvoiceReview($id)
     {
         /*
@@ -1561,11 +1413,6 @@ class Invoice extends AppModel {
     {
         if (! $this->data = $this->read(null, $id))
         {
-
-            App::import('Component', 'TokenHelper');
-            $Tk = new TokenHelperComponent;
-            $token = $Tk->generatePassword();
-
             $contract = array();
             $contract['ClientsContract'] = $clientsContract['ClientsContract'];
             $invoice['Invoice']['terms'] = $contract['ClientsContract']['terms'];
@@ -1579,7 +1426,6 @@ class Invoice extends AppModel {
             $invoice['Invoice']['mock'] = 1;
 
             $invoice['Invoice']['created_date'] = date('Y-m-d');
-            $invoice['Invoice']['token'] = $token;
             $invoice['Invoice']['view_count'] = 0;
             $invoice['Invoice']['voided'] = 1;
             $user = 1;
@@ -1590,7 +1436,6 @@ class Invoice extends AppModel {
             if ($this->save($invoice)) {
 
                 $employee =  $this->employeeForInvoicing($this->data['ClientsContract']['employee_id']);
-
                 $invoice['Invoice']['id'] = $this->getLastInsertID();
                 $subject = $this->invoiceFunction->email_subject($invoice, $employee);
                 $invoiceurltoken = $this->invoiceFunction->invoiceTokenUrl($this->data,$subject,$webroot,$employee);
