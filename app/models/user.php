@@ -3,13 +3,8 @@ class User extends AppModel {
 
 	var $name = 'User';
 	var $displayField='username';
-	var $hasMany = array(
-		);
-    var $hasOne = array(
-        'className' => 'Profile',
-        'dependent' => true
-        )
-    );
+	var $hasMany = array();
+        var $hasOne = array();
 	var $validate = array(
 		'id' => array('rule' => 'blank',
 					  'on' => 'create'),
