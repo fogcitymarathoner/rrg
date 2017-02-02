@@ -61,25 +61,5 @@ class InvoicesItem extends AppModel {
 		parent::__construct();
 	}
 
-	// delete items created from invoices that have been deleted
-    function delete_orphan_items()
-    {
-        echo "Deleting orphan Invoice Items\n";
-        $nintyDaysback = mktime(0, 0, 0, date("m")  , date("d")-90, date("Y"));
-        $str90 = date("Y-m-d",$nintyDaysback);
-        echo '  starting '.$str90."\n";
-        $this->recursive = 1;
-        $this->data = $this->find('all',Null);
-        foreach ($this->data as $item):
-
-            if (!$item['Invoice']['id'])
-            {
-                $this->delete($item['InvoicesItem']['id']);
-            }
-
-        endforeach;
-
-    }
-
 }
 ?>
