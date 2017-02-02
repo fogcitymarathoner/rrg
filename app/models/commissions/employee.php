@@ -114,26 +114,5 @@ class EmployeeCommissions extends Employee {
         }
     }
 
-    /*
-     * Generates the Employee-Month 'Tag' associate record
-     */
-    function generatetaggedreports()
-    {
-        ini_set('memory_limit', '-1');
-        Configure::write('debug', 2);
-
-        print "Employee model generatetaggedreports\n";
-        $this->recursive = 0;
-        $employees = $this->find('all',NULL);
-
-        foreach ($employees as $employee):
-            if($employee['Employee']['salesforce'] == 1)
-            {
-                print "  Generating reports for ".$employee['Employee']['firstname'].' '.$employee['Employee']['lastname']."\n";
-                $this->generatetaggedreportsemployee($employee);
-            }
-        endforeach;
-    }
-
 }
 ?>
