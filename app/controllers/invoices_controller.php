@@ -1,5 +1,6 @@
 <?php
-App::import('Component', 'Json');
+
+
 App::import('Component', 'InvoiceFunction');
 App::import('Model', 'Client');
 class InvoicesController extends AppController {
@@ -387,10 +388,6 @@ class InvoicesController extends AppController {
 		$this->set('employees',$this->Invoice->ClientsContract->Employee->activeEmployees());	
 		$this->data = $this->Invoice->getInvoiceReview($id);
 		$this->page_title = 'Edit Invoice: '.$this->data['Invoice']['id'].'-'.$this->data['Client']['Client']['name'].' - '.$this->data['Employee']['Employee']['firstname'].' '.$this->data['Employee']['Employee']['lastname'];
-	}
-	public function wc()
-	{
-		$this->Invoice->wc_analysis();
 	}
     public function fix_commissions_items()
     {
