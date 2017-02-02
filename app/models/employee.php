@@ -760,20 +760,6 @@ class Employee extends AppModel {
             endforeach;
         }
     }
-    function remove_non_sales_taggedreports()
-    {
-        /*
-         * remove tags for employees non in sales forc
-         */
-        ini_set('memory_limit', '-1');
-        Configure::write('debug', 2);
-        $this->recursive = 0;
-        $employees = $this->find('all',NULL);
-
-        foreach ($employees as $employee):
-            $this->removetaggedreportsemployee($employee['Employee']['id']);
-        endforeach;
-    }
     function strikecount($id)
     {
         $this->recursive = 1;
