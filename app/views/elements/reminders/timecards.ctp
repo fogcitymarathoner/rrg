@@ -6,7 +6,7 @@
 	{
 		$res = '<div style=" display: block; float:left"><h2>Timecards for Invoicing</h2>
 <p>
-Invoices may be found here after preview /php-apps/cake.rocketsredglare.com/biz/data/invoices/
+Invoices may be found here after preview /src/php-source/cake.rocketsredglare.com/PROJECT/app/webroot/invoices
 invoices may be regenerated here /invoices/view/##
 </p>
 
