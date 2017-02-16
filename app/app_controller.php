@@ -87,16 +87,16 @@ class AppController extends Controller {
 		$this->set('root','/');
 	} 
 	function beforeFilter() {
-       	$this->Auth->loginAction = array('prefix'=>'m','controller' => 'users', 'action' => 'login');
-      	$this->Auth->loginRedirect = array('prefix'=>'m','controller' => 'reminders', 'action' => 'index');
-       	$this->Auth->allow('login','display','new_user_session','m_new_user_session');
-       	$this->Auth->logoutRedirect = array('controller' => 'pages', 'action' => 'home');
-	$this->Auth->loginError = 'No username and password was found with that combination.';
-	$this->AutoLogin->cookieName = Configure::read('cookie_name'); // 'cakerrgautologin';
-        $this->xml_home = Configure::read('xml_home');
-        # force ssl on actions below in requireSecure
-        #$this->Security->blackHoleCallback = 'forceSSL';
-        #$this->Security->requireSecure('m_login', 'login', 'checkout','validate_token');
+       	    $this->Auth->loginAction = array('prefix'=>'m','controller' => 'users', 'action' => 'login');
+      	    $this->Auth->loginRedirect = array('prefix'=>'','controller' => 'reminders', 'action' => 'index');
+       	    $this->Auth->allow('login','display','new_user_session','m_new_user_session');
+       	    $this->Auth->logoutRedirect = array('controller' => 'pages', 'action' => 'home');
+	    $this->Auth->loginError = 'No username and password was found with that combination.';
+	    $this->AutoLogin->cookieName = Configure::read('cookie_name'); // 'cakerrgautologin';
+            $this->xml_home = Configure::read('xml_home');
+            # force ssl on actions below in requireSecure
+            #$this->Security->blackHoleCallback = 'forceSSL';
+            #$this->Security->requireSecure('m_login', 'login', 'checkout','validate_token');
 	}
 	function forceSSL() {
 		$this->redirect('https://' . $_SERVER['SERVER_NAME'] . $this->here);

@@ -37,6 +37,6 @@
  */
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 	Router::connect('/soap/:controller/:action/*', array('prefix' => 'soap', 'soap' => true));
-    Router::connect('/m/:controller/:action/*', array('prefix' => 'm', 'm' => true));
+        Router::connect('/m/:controller/:action/*', array('prefix' => 'm', 'm' => true));
 
 ?>
