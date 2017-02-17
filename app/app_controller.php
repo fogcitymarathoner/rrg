@@ -67,7 +67,7 @@ class AppController extends Controller {
 		if(isset($auth['User'])){
 			$utility_menutmp = array($utility_menu, array('url'=>'/users/logout','title'=>'Logout'),);
 		}else {
-			$utility_menutmp = array($utility_menu, array('url'=>'/m/users/login','title'=>'Login'),);
+			$utility_menutmp = array($utility_menu, array('url'=>'/users/login','title'=>'Login'),);
 		}
 		$utility_menu = $utility_menutmp; 
 		$this->set('utilityMenu', $utility_menu);
