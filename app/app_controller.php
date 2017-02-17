@@ -4,17 +4,16 @@ App::import('Core', 'Controller');
 App::import('Helper','Papp'); 
 class AppController extends Controller {
 	var $helpers = array(
-			'Html',
+            'Html',
             'Form',
             'Xml',
             'Javascript',
-			'Crumb',
-			'Rapp',
-			#'Client',
-			'Fck',
-			'Fpdf',
-			'Invoice',
-			'DwMenu',
+            'Crumb',
+            'Rapp',
+            'Fck',
+            'Fpdf',
+            'Invoice',
+            'DwMenu',
             'Papp',
             'Mobile',
 	);

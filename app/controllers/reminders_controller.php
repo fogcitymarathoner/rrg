@@ -277,15 +277,6 @@ class RemindersController  extends AppController {
         $reminders = $this->reminders->reminders();
         $this->set(compact('reminders'));
     }
-    function m_index() {
-        Configure::write('debug',0);
-        $this->layout = "default_jqmobile";
-        # Setup Reminders
-        $reminders = $this->reminders->reminders();
-        $page_title = 'Timecard Reminders';
-        $this->set(compact('reminders','page_title'));
-        $this->render('/reminders/m/index');
-    }
     function timecards() {
         Configure::write('debug',0);
 		# Setup Timecards for time entry

@@ -80,14 +80,12 @@ class UsersController extends AppController {
 			$this->redirect(array('action'=>'index'));
 		}
 	}
-	function search() {
-	// Setup dropdowns in search action/view
-
-	}
     function new_user_session()
     {
+        /*
+         * land here after successful login
+         */
         $this->Auth->login();
-
         $this->redirect(array('controller' => 'reminders', 'action' => 'index', 'home'));
     }
 
@@ -97,32 +95,22 @@ class UsersController extends AppController {
         if ($this->Auth->user()) {
             $this->redirect($this->Auth->redirect());
         }
-
     }
-	/**
-	* The AuthComponent provides the needed functionality
-	* for login, so you can leave this function blank.
-	*/
-	function login() {
+
+    /**
+    * The AuthComponent provides the needed functionality
+    * for login, so you can leave this function blank.
+    */
+    function login() {
 		$page = 'Please sign in.';
 		$this->set(compact('page'));	
 		$this->layout='users/login';
-	}
-    function m_login() {
-        $page = 'Please sign in.';
-        $this->set(compact('page'));
-        $this->layout='users/login';
-    }
-    function soap_login() {
-        $page = 'Please sign in.';
-        $this->set(compact('page'));
-        $this->layout='users/login';
     }
 	function logout() {
 	    $this->redirect($this->Auth->logout());
 	}
     function beforeFilter() {
-        $this->Auth->allowedActions = array('login','new_user_session','m_new_user_session' );
+        $this->Auth->allowedActions = array('login','new_user_session');
 
         parent::beforeFilter();
         // Ajax security holes
