@@ -5,7 +5,7 @@
 	<?php //debug($this->data);
 		echo $form->input('ContractsItemsCommissionsItem.id',array('type'=>'hidden'));
 		echo $form->input('ContractsItemsCommissionsItem.employee_id',array('label'=>'Sales Person'));
-		echo $form->input('ContractsItemsCommissionsItem.contracts_items_id',array('type'=>'hidden'));
+		echo $form->input('ContractsItemsCommissionsItem.contract_item_id',array('type'=>'hidden'));
 		echo $form->input('ContractsItemsCommissionsItem.percent');
 		echo $form->input('ContractsItemsCommissionsItem.next',array('type'=>'hidden','value'=>$next));
 

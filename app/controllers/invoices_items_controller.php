@@ -24,8 +24,8 @@ class InvoicesItemsController extends AppController {
 
 	function add() {
 		if (!empty($this->data)) { 
-			$item = $this->InvoicesItem->Invoice->ClientsContract->ContractsItem->read(null, $this->data['InvoicesItem']['contracts_items_id']);
-			$commissionsitems = $this->InvoicesItem->Invoice->ClientsContract->ContractsItem->ContractsItemsCommissionsItem->find('all', array('conditions' =>array('contracts_items_id'=>$this->data['InvoicesItem']['contracts_items_id'])));
+			$item = $this->InvoicesItem->Invoice->ClientsContract->ContractsItem->read(null, $this->data['InvoicesItem']['contract_item_id']);
+			$commissionsitems = $this->InvoicesItem->Invoice->ClientsContract->ContractsItem->ContractsItemsCommissionsItem->find('all', array('conditions' =>array('contract_item_id'=>$this->data['InvoicesItem']['contract_item_id'])));
 			$this->data['InvoicesItem']['invoice_id']=$this->data['InvoicesItem']['invoice_id'];
 			$this->data['InvoicesItem']['amount']=$item['ContractsItem']['amt'];
 			$this->data['InvoicesItem']['cost']=$item['ContractsItem']['cost'];
@@ -98,8 +98,8 @@ class InvoicesItemsController extends AppController {
 	}
 	function timecard_add() {
 		if (!empty($this->data)) { 
-			$item = $this->InvoicesItem->Invoice->ClientsContract->ContractsItem->read(null, $this->data['InvoicesItem']['contracts_items_id']);
-			$commissionsitems = $this->InvoicesItem->Invoice->ClientsContract->ContractsItem->ContractsItemsCommissionsItem->find('all', array('conditions' =>array('contracts_items_id'=>$this->data['InvoicesItem']['contracts_items_id'])));
+			$item = $this->InvoicesItem->Invoice->ClientsContract->ContractsItem->read(null, $this->data['InvoicesItem']['contract_item_id']);
+			$commissionsitems = $this->InvoicesItem->Invoice->ClientsContract->ContractsItem->ContractsItemsCommissionsItem->find('all', array('conditions' =>array('contract_item_id'=>$this->data['InvoicesItem']['contract_item_id'])));
 			$this->data['InvoicesItem']['invoice_id']=$this->data['InvoicesItem']['invoice_id'];
 			$this->data['InvoicesItem']['amount']=$item['ContractsItem']['amt'];
 			$this->data['InvoicesItem']['cost']=$item['ContractsItem']['cost'];

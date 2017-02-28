@@ -1522,7 +1522,7 @@ class ClientsController extends AppController {
             $this->data['ContractsItemsCommissionsItem']['created_date'] = date('Y-m-d');
             if ($this->Client->ClientsContract->ContractsItem->ContractsItemsCommissionsItem->save($this->data)) {
                 $this->Session->setFlash(__('The Commissions has been saved', true));
-                $item = $this->Client->ClientsContract->ContractsItem->read(null, $this->data['ContractsItemsCommissionsItem']['contracts_items_id']);
+                $item = $this->Client->ClientsContract->ContractsItem->read(null, $this->data['ContractsItemsCommissionsItem']['contract_item_id']);
                 $this->data['ContractsItem'] = $item ['ContractsItem'];
                 $this->data['ContractsItem']['next'] = $this->data['ContractsItemsCommissionsItem']['next'] ;
                 $this->redirectFromContractsItem($this->data);
@@ -1532,7 +1532,7 @@ class ClientsController extends AppController {
         }
         $item = $this->Client->ClientsContract->ContractsItem->read(null, $item_id);
         $contract = $this->Client->ClientsContract->read(null, $item['ContractsItem']['contract_id']);
-        $this->data['ContractsItemsCommissionsItem']['contracts_items_id'] = $item_id;
+        $this->data['ContractsItemsCommissionsItem']['contract_item_id'] = $item_id;
         $this->data['ClientsContract'] = $contract['ClientsContract'];
         $this->Client->ClientsContract->Employee->unbindModel(array('hasMany' => array('ClientsContract','EmployeesMemo','EmployeesPayment'),),false);
         $this->Client->ClientsContract->Employee->unbindModel(array('belongsTo' => array('State'),),false);
@@ -1750,7 +1750,7 @@ class ClientsController extends AppController {
             if ($this->Client->ClientsContract->ContractsItem->ContractsItemsCommissionsItem->save($this->data)) {
                 $this->Session->setFlash(__('The Commissions has been saved', true));
                 $citem = $this->Client->ClientsContract->ContractsItem->ContractsItemsCommissionsItem->read(null, $this->data['ContractsItemsCommissionsItem']['id']);
-                $item = $this->Client->ClientsContract->ContractsItem->read(null, $citem['ContractsItemsCommissionsItem']['contracts_items_id']);
+                $item = $this->Client->ClientsContract->ContractsItem->read(null, $citem['ContractsItemsCommissionsItem']['contract_item_id']);
                 $this->data['ContractsItem'] = $item ['ContractsItem'];
                 $this->data['ContractsItem']['next'] = $this->data['ContractsItemsCommissionsItem']['next'] ;
                 $this->redirectFromContractsItem($this->data);
@@ -1769,7 +1769,7 @@ class ClientsController extends AppController {
         foreach ($employeesAll as $employee):
             $employees[$employee['Employee']['id']] = $employee['Employee']['firstname'].' '.$employee['Employee']['lastname'];
         endforeach;
-        $item = $this->Client->ClientsContract->ContractsItem->read(null, $this->data['ContractsItemsCommissionsItem']['contracts_items_id']);
+        $item = $this->Client->ClientsContract->ContractsItem->read(null, $this->data['ContractsItemsCommissionsItem']['contract_item_id']);
         $this->Client->ClientsContract->unbindModel(array('belongsTo' => array('Employee','Client','Period'),),false);
         $this->Client->ClientsContract->unbindModel(array('hasMany' => array('Invoice','ContractsItem'),),false);
         $this->Client->ClientsContract->unbindModel(array('hasAndBelongsToMany' => array('User','ClientsManager'),),false);
@@ -2085,7 +2085,7 @@ class ClientsController extends AppController {
             $this->redirect(array('action'=>'index'));
         }
         $citem = $this->Client->ClientsContract->ContractsItem->ContractsItemsCommissionsItem->read(null, $id);
-        $item = $this->Client->ClientsContract->ContractsItem->read(null, $citem['ContractsItemsCommissionsItem']['contracts_items_id']);
+        $item = $this->Client->ClientsContract->ContractsItem->read(null, $citem['ContractsItemsCommissionsItem']['contract_item_id']);
         if ($this->Client->ClientsContract->ContractsItem->ContractsItemsCommissionsItem->delete($id)) {
             $this->Session->setFlash(__('Commissions Item deleted', true));
             $this->data['ContractsItem']= $item['ContractsItem'];

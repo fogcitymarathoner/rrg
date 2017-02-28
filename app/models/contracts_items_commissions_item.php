@@ -19,7 +19,7 @@ class ContractsItemsCommissionsItem extends AppModel {
 		),
 		'ContractsItems' => array(
 			'className' => 'ContractsItems',
-			'foreignKey' => 'contracts_items_id',
+			'foreignKey' => 'contract_item_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

@@ -21,7 +21,7 @@ class ContractsItem extends AppModel {
 	);
 	var $hasMany = array(
 			'ContractsItemsCommissionsItem' => array('className' => 'ContractsItemsCommissionsItem',
-								'foreignKey' => 'contracts_items_id',
+								'foreignKey' => 'contract_item_id',
 								'dependent' => true,
 								'conditions' => '',
 								'fields' => '',
@@ -76,7 +76,7 @@ class ContractsItem extends AppModel {
 
                 $item_id = $this->getLastInsertID ();
                 // Regular
-                $commitem['ContractsItemsCommissionsItem']['contracts_items_id'] =$item_id;
+                $commitem['ContractsItemsCommissionsItem']['contract_item_id'] =$item_id;
                 $commitem['ContractsItemsCommissionsItem']['modified_date'] = date('Y-m-d H:m:s');
                 $commitem['ContractsItemsCommissionsItem']['percent'] =61.50;
                 $commitem['ContractsItemsCommissionsItem']['employee_id'] =1025;
@@ -87,7 +87,7 @@ class ContractsItem extends AppModel {
 
 
                 unset($commitem['ContractsItemsCommissionsItem']['id']);
-                $commitem['ContractsItemsCommissionsItem']['contracts_items_id'] =$item_id;
+                $commitem['ContractsItemsCommissionsItem']['contract_item_id'] =$item_id;
                 $commitem['ContractsItemsCommissionsItem']['modified_date'] = date('Y-m-d H:m:s');
 
                 $commitem['ContractsItemsCommissionsItem']['percent'] =38.5;
@@ -110,7 +110,7 @@ class ContractsItem extends AppModel {
 
 
                 unset($commitem['ContractsItemsCommissionsItem']['id']);
-                $commitem['ContractsItemsCommissionsItem']['contracts_items_id'] =$item_id;
+                $commitem['ContractsItemsCommissionsItem']['contract_item_id'] =$item_id;
                 $commitem['ContractsItemsCommissionsItem']['modified_date'] = date('Y-m-d H:m:s');
                 $commitem['ContractsItemsCommissionsItem']['percent'] =61.5;
                 $commitem['ContractsItemsCommissionsItem']['employee_id'] =1025;
@@ -119,7 +119,7 @@ class ContractsItem extends AppModel {
                 $this->ContractsItemsCommissionsItem->save($commitem);
                 // GOOD
                 unset($commitem['ContractsItemsCommissionsItem']['id']);
-                $commitem['ContractsItemsCommissionsItem']['contracts_items_id'] =$item_id;
+                $commitem['ContractsItemsCommissionsItem']['contract_item_id'] =$item_id;
                 $commitem['ContractsItemsCommissionsItem']['modified_date'] = date('Y-m-d H:m:s');
                 $commitem['ContractsItemsCommissionsItem']['percent'] =38.5;
                 $commitem['ContractsItemsCommissionsItem']['employee_id'] =1479;
@@ -139,7 +139,7 @@ class ContractsItem extends AppModel {
                 $item_id = $this->getLastInsertID ();
 
                 unset($commitem['ContractsItemsCommissionsItem']['id']);
-                $commitem['ContractsItemsCommissionsItem']['contracts_items_id'] =$item_id;
+                $commitem['ContractsItemsCommissionsItem']['contract_item_id'] =$item_id;
                 $commitem['ContractsItemsCommissionsItem']['modified_date'] = date('Y-m-d H:m:s');
                 $commitem['ContractsItemsCommissionsItem']['percent'] =61.5;
                 $commitem['ContractsItemsCommissionsItem']['employee_id'] =1025;
@@ -149,7 +149,7 @@ class ContractsItem extends AppModel {
 
 
                 unset($commitem['ContractsItemsCommissionsItem']['id']);
-                $commitem['ContractsItemsCommissionsItem']['contracts_items_id'] =$item_id;
+                $commitem['ContractsItemsCommissionsItem']['contract_item_id'] =$item_id;
                 $commitem['ContractsItemsCommissionsItem']['modified_date'] = date('Y-m-d H:m:s');
                 $commitem['ContractsItemsCommissionsItem']['percent'] =38.5;
                 $commitem['ContractsItemsCommissionsItem']['employee_id'] =1479;
@@ -195,7 +195,7 @@ class ContractsItem extends AppModel {
 
                 $item_id = $this->getLastInsertID ();
                 // Regular
-                $commitem['ContractsItemsCommissionsItem']['contracts_items_id'] =$item_id;
+                $commitem['ContractsItemsCommissionsItem']['contract_item_id'] =$item_id;
                 $commitem['ContractsItemsCommissionsItem']['modified_date'] = date('Y-m-d H:m:s');
                 $commitem['ContractsItemsCommissionsItem']['percent'] =61.50;
                 $commitem['ContractsItemsCommissionsItem']['employee_id'] =1025;
@@ -206,7 +206,7 @@ class ContractsItem extends AppModel {
 
 
                 unset($commitem['ContractsItemsCommissionsItem']['id']);
-                $commitem['ContractsItemsCommissionsItem']['contracts_items_id'] =$item_id;
+                $commitem['ContractsItemsCommissionsItem']['contract_item_id'] =$item_id;
                 $commitem['ContractsItemsCommissionsItem']['modified_date'] = date('Y-m-d H:m:s');
 
                 $commitem['ContractsItemsCommissionsItem']['percent'] =38.5;
@@ -229,7 +229,7 @@ class ContractsItem extends AppModel {
 
 
                 unset($commitem['ContractsItemsCommissionsItem']['id']);
-                $commitem['ContractsItemsCommissionsItem']['contracts_items_id'] =$item_id;
+                $commitem['ContractsItemsCommissionsItem']['contract_item_id'] =$item_id;
                 $commitem['ContractsItemsCommissionsItem']['modified_date'] = date('Y-m-d H:m:s');
                 $commitem['ContractsItemsCommissionsItem']['percent'] =61.5;
                 $commitem['ContractsItemsCommissionsItem']['employee_id'] =1025;
@@ -238,7 +238,7 @@ class ContractsItem extends AppModel {
                 $this->ContractsItemsCommissionsItem->save($commitem);
                 // GOOD
                 unset($commitem['ContractsItemsCommissionsItem']['id']);
-                $commitem['ContractsItemsCommissionsItem']['contracts_items_id'] =$item_id;
+                $commitem['ContractsItemsCommissionsItem']['contract_item_id'] =$item_id;
                 $commitem['ContractsItemsCommissionsItem']['modified_date'] = date('Y-m-d H:m:s');
                 $commitem['ContractsItemsCommissionsItem']['percent'] =38.5;
                 $commitem['ContractsItemsCommissionsItem']['employee_id'] =1479;
@@ -258,7 +258,7 @@ class ContractsItem extends AppModel {
                 $item_id = $this->getLastInsertID ();
 
                 unset($commitem['ContractsItemsCommissionsItem']['id']);
-                $commitem['ContractsItemsCommissionsItem']['contracts_items_id'] =$item_id;
+                $commitem['ContractsItemsCommissionsItem']['contract_item_id'] =$item_id;
                 $commitem['ContractsItemsCommissionsItem']['modified_date'] = date('Y-m-d H:m:s');
                 $commitem['ContractsItemsCommissionsItem']['percent'] =61.5;
                 $commitem['ContractsItemsCommissionsItem']['employee_id'] =1025;
@@ -268,7 +268,7 @@ class ContractsItem extends AppModel {
 
 
                 unset($commitem['ContractsItemsCommissionsItem']['id']);
-                $commitem['ContractsItemsCommissionsItem']['contracts_items_id'] =$item_id;
+                $commitem['ContractsItemsCommissionsItem']['contract_item_id'] =$item_id;
                 $commitem['ContractsItemsCommissionsItem']['modified_date'] = date('Y-m-d H:m:s');
                 $commitem['ContractsItemsCommissionsItem']['percent'] =38.5;
                 $commitem['ContractsItemsCommissionsItem']['employee_id'] =1479;

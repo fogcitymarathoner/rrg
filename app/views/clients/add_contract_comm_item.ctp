@@ -5,7 +5,7 @@
  		<legend><?php __('Add Commissions');?></legend>
 	<?php
 		echo $form->input('employee_id',array('name'=>'data[ContractsItemsCommissionsItem][employee_id]','label'=>'Sales Person','empty' => '- select sales person -', 'options' => $employees));
-		echo $form->input('ContractsItemsCommissionsItem.contracts_items_id',array('type'=>'hidden','value'=>$this->data['ContractsItemsCommissionsItem']['contracts_items_id']));
+		echo $form->input('ContractsItemsCommissionsItem.contract_item_id',array('type'=>'hidden','value'=>$this->data['ContractsItemsCommissionsItem']['contract_item_id']));
 		echo $form->input('ContractsItemsCommissionsItem.percent',array('label'=>'Percentage'));
 
 		echo $form->input('ContractsItemsCommissionsItem.next',array('type'=>'hidden','value'=>$next));
