@@ -54,9 +54,7 @@ class CommissionsPaymentsController extends AppController {
 
 			$this->data['CommissionsPayment']['commissions_report_id'] =
                     $this->commsComp->reportID_fromdate($datea);
-			$this->data['CommissionsPayment']['commissions_reports_tag_id'] =
-                $this->CommissionsReportsTag->shell_tagID($this->data['CommissionsPayment']['employee_id'],$this->data['CommissionsPayment']['commissions_report_id']);
-			
+
 			$this->CommissionsPayment->create();
 			if ($this->CommissionsPayment->save($this->data)) {
 				$this->Session->setFlash(__('The CommissionsPayment has been saved', true));
@@ -86,9 +84,7 @@ class CommissionsPaymentsController extends AppController {
 
             $this->data['CommissionsPayment']['commissions_report_id'] =
                     $this->commsComp->reportID_fromdate($datea);
-			$this->data['CommissionsPayment']['commissions_reports_tag_id'] =
-                $this->CommissionsReportsTag->shell_tagID($this->data['CommissionsPayment']['employee_id'],$this->data['CommissionsPayment']['commissions_report_id']);
-			
+
 			if ($this->CommissionsPayment->save($this->data)) {
 				$this->Session->setFlash(__('The CommissionsPayment has been saved', true));
 				$this->redirect(array('action'=>'index'));
