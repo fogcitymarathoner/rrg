@@ -78,7 +78,6 @@ class CommissionsReportsTag extends AppModel {
         $this->serializer = &new XML_Serializer($options);
 
         $this->xml_home = Configure::read('xml_home');
-        $this->comtagdir = $this->xml_home.'commissions_reports_tags/';
 
         $this->hu = new HashUtilsComponent;
 
@@ -218,8 +217,6 @@ class CommissionsReportsTag extends AppModel {
         /*
          *
          */
-        $fn = $this->comtagdir.str_pad((string)$id, 5, "0", STR_PAD_LEFT).'.xml';
-        //
         $xml_doc = $this->serializer->serialize($report);
         $report['CommissionsReportsTag']['release'] = 1;
         $report['CommissionsReportsTag']['cleared'] = 1;
