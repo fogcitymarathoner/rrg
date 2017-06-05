@@ -11,7 +11,6 @@ App::import('Component', 'InvoiceFunction');
 
 App::import('Model', 'ClientsContract');
 App::import('Model', 'CommissionsReport');
-App::import('Model', 'CommissionsReportsTag');
 App::import('Model', 'Employee');
 App::import('Model', 'InvoicesItemsCommissionsItem');
 
@@ -56,7 +55,6 @@ class InvoicesItem extends AppModel {
 		$this->dirComp = new FixtureDirectoriesComponent;
 		$this->dsComp = new DatasourcesComponent;
 		$this->xml_home = Configure::read('xml_home');
-		$this->CommissionsReportsTag = new CommissionsReportsTag;
 
 		parent::__construct();
 	}
