@@ -164,12 +164,6 @@ class PayrollsController extends AppController {
                 /*
                  * retrieve payroll with all associated payments
                  */
-
-                $this->Payroll->EmployeesPayment->Employee->unbindModel(array('hasMany' => array('Note','ClientsContract','CommissionsPayment',
-                    'NotesPayment','Expense','InvoicesItemsCommissionsItem',
-                    'EmployeesLetter','EmployeesMemo','EmployeesPayment',
-                    'EmployeesPayment','CommissionsReportsTag'
-                ),),false);
                 $this->Payroll->EmployeesPayment->Employee->unbindModel(array('belongsTo' => array('State'),),false);
 
                 $pay = $this->Payroll->find('all',array(

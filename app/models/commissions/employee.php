@@ -22,33 +22,10 @@ class EmployeeCommissions extends Employee {
 
         $report_periods = $this->commsComp->get_all_periods();
 
-        $this->CommissionsReportsTag->recursive = 0;
         foreach( $report_periods as $per)
         {
 	    print 'period number in generator - '.$per['id'];
             print $this->commsComp->period_from_id($per['id']).' - '.$per['id']."\n";
-            $count = $this->CommissionsReportsTag->find('all',array('conditions'=>array(
-                'employee_id'=>$employee['Employee']['id'],
-                'commissions_report_id'=>$per['id'],
-            )));
-            if (count($count) == 0)
-            {
-                print "making period tag for ".$this->commsComp->period_from_id($per['id']).' - '.$per['id']."\n";
-
-                $taggedreport['CommissionsReportsTag']['id'] = Null;
-                $taggedreport['CommissionsReportsTag']['comm_balance'] = 0;
-                $taggedreport['CommissionsReportsTag']['note_balance'] = 0;
-                $taggedreport['CommissionsReportsTag']['cleared'] = 0;
-                $taggedreport['CommissionsReportsTag']['release'] = 0;
-                $taggedreport['CommissionsReportsTag']['employee_id'] = $employee['Employee']['id'];
-                $taggedreport['CommissionsReportsTag']['commissions_report_id'] = $per['id'];
-                $taggedreport['CommissionsReportsTag']['name'] = $employee['Employee']['firstname'].' '.$employee['Employee']['lastname'];
-                $this->CommissionsReportsTag->save($taggedreport);
-		debug( $this->CommissionsReportsTag->find('all',array('conditions'=>array(
-                'employee_id'=>$employee['Employee']['id'],
-                'commissions_report_id'=>$per['id'],
-            ))));
-
             }
         }
     }
@@ -70,45 +47,10 @@ class EmployeeCommissions extends Employee {
              * generate missing employee comm report tags
              */
             $this->generate_employee_commissions_tags($employee);
-            $this->CommissionsReportsTag->recursive = 1;
-            $tagged_reports = $this->CommissionsReportsTag->find('all',
-                array('conditions'=>array('employee_id'=>$employee['Employee']['id']),
-                    'order'=>'commissions_report_id asc'
-                ));
-            $i = 0;
-            foreach ($tagged_reports as $taggedreport):
-                //debug($taggedreport);exit;
-                print '    '.$this->commsComp->period_from_id($taggedreport['CommissionsReportsTag']['commissions_report_id'])."\n";
                 //
                 // skipped cleared commissions
                 //
-                if($taggedreport['CommissionsReportsTag']['cleared']==0)
-                {
-                    print '      '.'Period not cleared, calculation balances'."\n";
-                    $comms = array();
-                    $increaseC = 0;
-                    $increaseN = 0;
-                    if($i)
-                    {
-                        $previous_rpt_id = $tagged_reports[$i-1] ['CommissionsReportsTag']['id'];
-                        $previousrpt = $this->CommissionsReportsTag->read(NULL,$previous_rpt_id);
-                        $previousC = $previousrpt ['CommissionsReportsTag']['comm_balance'];
-                        $previousN = $previousrpt ['CommissionsReportsTag']['note_balance'];
-                    }else
-                    {
-                        $previousC = 0;
-                        $previousN = 0;
-                    }
-                    $increaseC = $this->commissionIncrease($taggedreport,$employee);
-                    $decreaseC = $this->commissionDecrease($taggedreport,$employee);
-                    $taggedreport['CommissionsReportsTag']['comm_balance'] = $previousC+ $increaseC-$decreaseC;
-                    $increaseN = $this->noteIncrease($taggedreport,$employee);
-                    $decreaseN = $this->noteDecrease($taggedreport,$employee);
-                    $taggedreport['CommissionsReportsTag']['note_balance'] = $previousN+ $increaseN-$decreaseN;
-                    $taggedreport['CommissionsReportsTag']['name'] = $employee['Employee']['firstname'].' '.$employee['Employee']['lastname'];
-                    $this->CommissionsReportsTag->save($taggedreport);
 
-                }
                 $i++;
             endforeach;
         }

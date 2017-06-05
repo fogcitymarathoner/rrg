@@ -63,11 +63,6 @@ class PayrollCache extends Payroll {
         $payrolls = $this->find('all',array(
             'conditions'=>array('date >='.date('Y-m-d',$threeWeeksBack))
         ));
-        $this->EmployeesPayment->Employee->unbindModel(array('hasMany' => array('Note','ClientsContract','CommissionsPayment',
-            'NotesPayment','Expense','InvoicesItemsCommissionsItem',
-            'EmployeesLetter','EmployeesMemo','EmployeesPayment',
-            'EmployeesPayment','CommissionsReportsTag'
-        ),),false);
         $this->EmployeesPayment->Employee->unbindModel(array('belongsTo' => array('State'),),false);
         foreach ($payrolls as $pay)
         {

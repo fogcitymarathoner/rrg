@@ -606,7 +606,6 @@ class Client extends AppModel {
             'ClientsCheck',
             'ClientsSearch',
             'EmployeesEmail',
-            'CommissionsReportsTag',
             'EmployeesPayment',
             'CommissionsPayment',
             'NotesPayment',

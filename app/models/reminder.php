@@ -16,7 +16,6 @@ App::import('Component', 'FixtureDirectories');
 
 App::import('Model', 'Invoice');
 App::import('Model', 'CommissionsReport');
-App::import('Model', 'CommissionsReportsTag');
 App::import('Model', 'Client');
 class Reminder extends AppModel {
 
@@ -34,7 +33,6 @@ class Reminder extends AppModel {
         $this->commsComp = new CommissionsComponent;
         $this->dsComp = new DatasourcesComponent;
         $this->xml_home = Configure::read('xml_home');
-        $this->CommissionsReportsTag = new CommissionsReportsTag;
         $this->Invoice = new Invoice;
 
         $this->dirComp = new FixtureDirectoriesComponent;

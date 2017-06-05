@@ -11,7 +11,6 @@ App::import('Component', 'InvoiceFunction');
 
 App::import('Model', 'ClientsContract');
 App::import('Model', 'CommissionsReport');
-App::import('Model', 'CommissionsReportsTag');
 App::import('Model', 'Employee');
 App::import('Model', 'InvoicesItemsCommissionsItem');
 
@@ -52,7 +51,6 @@ class InvoicesItemsCommissionsItem extends AppModel {
     static $commsComp;
     static $dsComp;
     static $xml_home;
-    static $CommissionsReportsTag;
     public function init() {
 
         self::$xmlComp = new XmlComponent;
@@ -63,7 +61,6 @@ class InvoicesItemsCommissionsItem extends AppModel {
         self::$commsComp = new CommissionsComponent;
         self::$dsComp = new DatasourcesComponent;
         self::$xml_home = Configure::read('xml_home');
-        self::$CommissionsReportsTag = new CommissionsReportsTag;
 
     }
 
