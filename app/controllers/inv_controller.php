@@ -15,7 +15,6 @@ App::import('Component', 'TimecardReceipt');
 App::import('Model', 'cache/invoice');
 App::import('Model', 'InvoicesItemsCommissionsItem');
 App::import('Model', 'CommissionsReport');
-App::import('Model', 'CommissionsReportsTag');
 App::import('Model', 'CommissionsPayment');
 App::import('Model', 'Note');
 App::import('Model', 'NotesPayment');
@@ -52,7 +51,6 @@ class InvController extends AppController {
         $this->commPayModel = new CommissionsPayment;
         $this->noteModel = new Note;
         $this->notesPaymentModel = new NotesPayment;
-        $this->commRptTagModel = new CommissionsReportsTag;
         parent::__construct();
     }
     /* called from radio buttons in reminders index */

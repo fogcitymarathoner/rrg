@@ -16,7 +16,6 @@ App::import('Component', 'FixtureDirectories');
 App::import('Model', 'cache/invoice');
 App::import('Model', 'InvoicesItemsCommissionsItem');
 App::import('Model', 'CommissionsReport');
-App::import('Model', 'CommissionsReportsTag');
 App::import('Model', 'CommissionsPayment');
 App::import('Model', 'Note');
 App::import('Model', 'NotesPayment');
@@ -42,7 +41,6 @@ class TimecardReceiptComponent extends Object {
         $this->commPayModel = new CommissionsPayment;
         $this->noteModel = new Note;
         $this->notesPaymentModel = new NotesPayment;
-        $this->commRptTagModel = new CommissionsReportsTag;
 
         parent::__construct();
     }
