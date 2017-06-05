@@ -11,7 +11,6 @@ App::import('Component', 'InvoiceFunction');
 
 App::import('Model', 'ClientsContract');
 App::import('Model', 'CommissionsReport');
-App::import('Model', 'CommissionsReportsTag');
 App::import('Model', 'Employee');
 App::import('Model', 'InvoicesItemsCommissionsItem');
 
@@ -49,7 +48,6 @@ class Payroll extends AppModel {
         $this->dirComp = new FixtureDirectoriesComponent;
         $this->dsComp = new DatasourcesComponent;
         $this->xml_home = Configure::read('xml_home');
-        $this->CommissionsReportsTag = new CommissionsReportsTag;
         parent::__construct();
     }
     function payments_for_refapp($id)
@@ -85,7 +83,6 @@ class Payroll extends AppModel {
             'EmployeesEmail',
             'EmployeesPayment',
             'InvoicesItemsCommissionsItem',
-            'CommissionsReportsTag',
             'CommissionsPayment',
             'NotesPayment',
             'Note',
@@ -127,7 +124,6 @@ class Payroll extends AppModel {
             'EmployeesEmail',
             'EmployeesPayment',
             'InvoicesItemsCommissionsItem',
-            'CommissionsReportsTag',
             'CommissionsPayment',
             'NotesPayment',
             'Note',
@@ -298,11 +294,7 @@ class Payroll extends AppModel {
         $payrolls = $this->find('all',array(
            'conditions'=>array('date >='.date('Y-m-d',$threeWeeksBack))
         ));
-        $this->EmployeesPayment->Employee->unbindModel(array('hasMany' => array('Note','ClientsContract','CommissionsPayment',
-            'NotesPayment','Expense','InvoicesItemsCommissionsItem',
-            'EmployeesLetter','EmployeesMemo','EmployeesPayment',
-            'EmployeesPayment','CommissionsReportsTag'
-        ),),false);
+
         $this->EmployeesPayment->Employee->unbindModel(array('belongsTo' => array('State'),),false);
         foreach ($payrolls as $pay)
         {
@@ -347,7 +339,6 @@ class Payroll extends AppModel {
         $this->EmployeesPayment->Employee->unbindModel(array('hasMany' => array(
             'ClientsContract',
             'EmployeesMemo',
-            'CommissionsReportsTag',
             'CommissionsPayment',
             'NotesPayment',
             'Note',

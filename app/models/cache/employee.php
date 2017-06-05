@@ -96,7 +96,6 @@ class EmployeeCache extends Employee {
                 $EmployeesMemo = $employee['EmployeesMemo'];
                 $EmployeesPayment =$employee['EmployeesPayment'];
                 $EmployeesEmail =$employee['EmployeesEmail'];
-                $CommissionsReportsTag =$employee['CommissionsReportsTag'];
                 $CommissionsPayment =$employee['CommissionsPayment'] ;
                 $NotesPayment =$employee['NotesPayment'];
                 $Note =$employee['Note'] ;
@@ -107,7 +106,6 @@ class EmployeeCache extends Employee {
                 $employee['EmployeesMemo'] = array();
                 $employee['EmployeesPayment'] = array();
                 $employee['EmployeesEmail'] = array();
-                $employee['CommissionsReportsTag'] = array();
                 $employee['CommissionsPayment'] = array();
                 $employee['NotesPayment'] = array();
                 $employee['Note'] = array();
@@ -141,12 +139,6 @@ class EmployeeCache extends Employee {
                     foreach($EmployeesEmail as $email)
                     {
                         $employee['EmployeesEmail'][] = $email['id'];
-                    }
-                }
-                if(!empty($CommissionsReportsTag)){
-                    foreach($CommissionsReportsTag as $rtag)
-                    {
-                        $employee['CommissionsReportsTag'][] = $rtag['id'];
                     }
                 }
                 if(!empty($CommissionsPayment)){
