@@ -267,20 +267,12 @@ class EmployeeCache extends Employee {
         echo "Decrypting employees \n";
         ini_set('memory_limit', '-1');
         $employees = $this->find('all');
-
         foreach ($employees as $employee)
         {
             if( $employee['Employee']['voided']!= 1)
             {
                 $encryptedEmployee = $this->read(null, $employee['Employee']['id']);
                 $this->data = $this->decrypt($encryptedEmployee);
-                debug($this->data['Employee']['firstname']);
-                debug($this->data['Employee']['lastname']);
-                debug($this->data['Employee']['ssn_crypto']);
-                debug($this->data['Employee']['bankaccountnumber_crypto']);
-                debug($this->data['Employee']['bankroutingnumber_crypto']);
-
-                $this->data['Employee']['ssn_clear'] = $this->data['Employee']['ssn_crypto'];
                 $this->data['Employee']['bankaccountnumber_clear'] = $this->data['Employee']['bankaccountnumber_crypto'];
                 $this->data['Employee']['bankroutingnumber_clear'] = $this->data['Employee']['bankroutingnumber_crypto'];
                 $this->save($this->data);
