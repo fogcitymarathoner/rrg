@@ -105,18 +105,6 @@ class Employee extends AppModel {
             'finderQuery' => '',
             'counterQuery' => ''
         ),
-        'CommissionsReportsTag' => array('className' => 'CommissionsReportsTag',
-            'foreignKey' => 'employee_id',
-            'dependent' => true,
-            'conditions' => '',
-            'fields' => '',
-            'order' => 'id asc',
-            'limit' => '',
-            'offset' => '',
-            'exclusive' => '',
-            'finderQuery' => '',
-            'counterQuery' => ''
-        ),
         'CommissionsPayment' => array('className' => 'CommissionsPayment',
             'foreignKey' => 'employee_id',
             'dependent' => true,
@@ -304,15 +292,10 @@ class Employee extends AppModel {
         $this->EmployeesMemo->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->EmployeesPayment->unbindModel(array('belongsTo' => array('Employee','Payroll','Invoice'),),false);
         $this->EmployeesEmail->unbindModel(array('belongsTo' => array('Employee'),),false);
-        $this->CommissionsReportsTag->unbindModel(array('belongsTo' => array('Employee'),),false);
-        $this->CommissionsReportsTag->unbindModel(array('hasMany' => array('InvoicesItemsCommissionsItem'),),false);
         $this->Note->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->Profile->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->CommissionsPayment->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->NotesPayment->unbindModel(array('belongsTo' => array('Employee'),),false);
-        $this->unbindModel(array('hasMany' => array('ClientsContract','EmployeesLetter','EmployeesMemo',
-                        'EmployeesPayment','CommissionsReportsTag','CommissionsPayment','NotesPayment',
-                        'Note','Expense','InvoicesItemsCommissionsItem'),),false);
         $employee = $this->read(null, $id);
         $employee['Employee']['issalesforce'] =  $this->issalesforce($id);
         $employee['User']=$employee['Profile']['User'];
@@ -328,9 +311,7 @@ class Employee extends AppModel {
         $this->ClientsContract->unbindModel(array('belongsTo' => array('Employee','Period'),),false);
         $this->EmployeesMemo->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->EmployeesPayment->unbindModel(array('belongsTo' => array('Employee','Payroll','Invoice'),),false);
-        $this->EmployeesEmail->unbindModel(array('belongsTo' => array('Employee'),),false);
-        $this->CommissionsReportsTag->unbindModel(array('belongsTo' => array('Employee'),),false);
-        $this->CommissionsReportsTag->unbindModel(array('hasMany' => array('InvoicesItemsCommissionsItem'),),false);
+        $this->EmployeesEmail->unbindModel(array('belongsTo' => array('Employee'),),false
         $this->Note->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->CommissionsPayment->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->NotesPayment->unbindModel(array('belongsTo' => array('Employee'),),false);
@@ -353,17 +334,10 @@ class Employee extends AppModel {
         $this->EmployeesMemo->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->EmployeesPayment->unbindModel(array('belongsTo' => array('Employee','Payroll','Invoice'),),false);
         $this->EmployeesEmail->unbindModel(array('belongsTo' => array('Employee'),),false);
-        $this->CommissionsReportsTag->unbindModel(array('belongsTo' => array('Employee'),),false);
-        $this->CommissionsReportsTag->unbindModel(array('hasMany' => array('InvoicesItemsCommissionsItem'),),false);
         $this->Note->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->CommissionsPayment->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->NotesPayment->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->unbindModel(array('hasOne' => array('Profile'),),false);
-        $this->unbindModel(array('hasMany' => array('EmployeesEmail','ClientsContract','EmployeesLetter','EmployeesMemo',
-            'EmployeesPayment','CommissionsReportsTag','CommissionsPayment','NotesPayment',
-            'Note','Expense','InvoicesItemsCommissionsItem'),),false);
-
-
         $employee = $this->read(null, $id);
         $employee['Employee']['issalesforce'] =  $this->issalesforce($id);
         return($employee);
@@ -379,16 +353,11 @@ class Employee extends AppModel {
         $this->EmployeesMemo->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->EmployeesPayment->unbindModel(array('belongsTo' => array('Employee','Payroll','Invoice'),),false);
         $this->EmployeesEmail->unbindModel(array('belongsTo' => array('Employee'),),false);
-        $this->CommissionsReportsTag->unbindModel(array('belongsTo' => array('Employee'),),false);
-        $this->CommissionsReportsTag->unbindModel(array('hasMany' => array('InvoicesItemsCommissionsItem'),),false);
         $this->Note->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->CommissionsPayment->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->NotesPayment->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->unbindModel(array('belongsTo' => array('State'),),false);
         $this->unbindModel(array('hasOne' => array('Profile'),),false);
-        $this->unbindModel(array('hasMany' => array('Note','EmployeesLetter','EmployeesMemo','EmployeesPayment','CommissionsReportsTag',
-            'CommissionsPayment','NotesPayment','EmployeesEmail','Expense','InvoicesItemsCommissionsItem'),),false);
-
         $employee = $this->read(null, $id);
         $employee['Employee']['issalesforce'] =  $this->issalesforce($id);
         return($employee);
@@ -405,17 +374,11 @@ class Employee extends AppModel {
         $this->EmployeesMemo->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->EmployeesPayment->unbindModel(array('belongsTo' => array('Employee','Payroll','Invoice'),),false);
         $this->EmployeesEmail->unbindModel(array('belongsTo' => array('Employee'),),false);
-        $this->CommissionsReportsTag->unbindModel(array('belongsTo' => array('Employee'),),false);
-        $this->CommissionsReportsTag->unbindModel(array('hasMany' => array('InvoicesItemsCommissionsItem'),),false);
         $this->Note->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->CommissionsPayment->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->NotesPayment->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->unbindModel(array('belongsTo' => array('Note','State'),),false);
         $this->unbindModel(array('hasOne' => array('Profile'),),false);
-        $this->unbindModel(array('hasMany' => array('EmployeesPayment','EmployeesEmail','CommissionsReportsTag',
-                                                    'CommissionsPayment','NotesPayment','Note','Expense','InvoicesItemsCommissionsItem',
-                                                    'EmployeesLetter','ClientsContract'
-        ),),false);
         $employee = $this->read(null, $id);
         //debug($employee);exit;
         return($employee);
@@ -431,17 +394,11 @@ class Employee extends AppModel {
         $this->EmployeesMemo->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->EmployeesPayment->unbindModel(array('belongsTo' => array('Employee','Payroll','Invoice'),),false);
         $this->EmployeesEmail->unbindModel(array('belongsTo' => array('Employee'),),false);
-        $this->CommissionsReportsTag->unbindModel(array('belongsTo' => array('Employee'),),false);
-        $this->CommissionsReportsTag->unbindModel(array('hasMany' => array('InvoicesItemsCommissionsItem'),),false);
         $this->Note->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->CommissionsPayment->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->NotesPayment->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->unbindModel(array('belongsTo' => array('Note','State'),),false);
         $this->unbindModel(array('hasOne' => array('Profile'),),false);
-        $this->unbindModel(array('hasMany' => array('EmployeesPayment','EmployeesEmail','CommissionsReportsTag',
-            'CommissionsPayment','NotesPayment','Note','Expense','InvoicesItemsCommissionsItem',
-            'EmployeesLetter','EmployeesMemo'
-        ),),false);
         $employee = $this->read(null, $id);
         //debug($employee);exit;
         return($employee);
@@ -456,17 +413,11 @@ class Employee extends AppModel {
         $this->EmployeesMemo->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->EmployeesPayment->unbindModel(array('belongsTo' => array('Employee','Payroll','Invoice'),),false);
         $this->EmployeesEmail->unbindModel(array('belongsTo' => array('Employee'),),false);
-        $this->CommissionsReportsTag->unbindModel(array('belongsTo' => array('Employee'),),false);
-        $this->CommissionsReportsTag->unbindModel(array('hasMany' => array('InvoicesItemsCommissionsItem'),),false);
         $this->Note->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->CommissionsPayment->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->NotesPayment->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->unbindModel(array('belongsTo' => array('Note','State'),),false);
         $this->unbindModel(array('hasOne' => array('Profile'),),false);
-        $this->unbindModel(array('hasMany' => array('EmployeesMemo','EmployeesPayment','EmployeesEmail','CommissionsReportsTag',
-            'CommissionsPayment','NotesPayment','Note','Expense','InvoicesItemsCommissionsItem',
-            'EmployeesLetter'
-        ),),false);
         $employee = $this->read(null, $id);
         //debug($employee);exit;
         return($employee);
@@ -527,19 +478,12 @@ class Employee extends AppModel {
         $this->EmployeesMemo->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->EmployeesPayment->unbindModel(array('belongsTo' => array('Employee','Payroll','Invoice'),),false);
         $this->EmployeesEmail->unbindModel(array('belongsTo' => array('Employee'),),false);
-        $this->CommissionsReportsTag->unbindModel(array('belongsTo' => array('Employee'),),false);
-        $this->CommissionsReportsTag->unbindModel(array('hasMany' => array('InvoicesItemsCommissionsItem'),),false);
         $this->Note->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->InvoicesItemsCommissionsItem->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->CommissionsPayment->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->NotesPayment->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->unbindModel(array('hasOne' => array('Profile','InvoicesOpening',),),false);
         $this->unbindModel(array('belongsTo' => array('Note','InvoicesItemsCommissionsItem',),),false);
-        $this->unbindModel(array('hasMany' => array('EmployeesMemo','EmployeesPayment','EmployeesEmail','CommissionsReportsTag',
-                                                            'CommissionsPayment','NotesPayment','Note','Expense','ClientsContract',
-                                                'InvoicesItemsCommissionsItem',
-                                                'EmployeesLetter'
-                                            ),),false);
         $employee = $this->read(null, $id);
         $expense_cats = $this->Expense->ExpensesCategory->find('list');
         $this->Expense->unbindModel(array('belongsTo' => array('Employee','ExpensesCategory'),),false);
@@ -574,10 +518,6 @@ class Employee extends AppModel {
                 $this->EmployeesEmail->save($employee);
             }
             $employeepass=$this->read(null, $this->getLastInsertID());
-            if($employeepass['Employee']['startdate'])
-            {
-                $this->CommissionsReportsTag->generate_tags_employee($employeepass)	;
-            }
             # one more save to generate slug and username
             $this->data['Employee'] = $employeepass['Employee'];
             $this->data['Employee']['modified_date'] = date('Y-m-d H:m:s');
@@ -657,7 +597,6 @@ class Employee extends AppModel {
                                                     'EmployeesMemo',
                                                     'EmployeesPayment',
                                                     'EmployeesEmail',
-                                                    'CommissionsReportsTag',
                                                     'EmployeesPayment',
                                                     'CommissionsPayment',
                                                     'NotesPayment',
@@ -689,7 +628,6 @@ class Employee extends AppModel {
                                                     'EmployeesMemo',
                                                     'EmployeesPayment',
                                                     'EmployeesEmail',
-                                                    'CommissionsReportsTag',
                                                     'CommissionsPayment',
                                                     'NotesPayment',
                                                     'Expense',
@@ -747,26 +685,10 @@ class Employee extends AppModel {
         $this->recursive = 2;
 
         $employee = $this->read(null, $employee_id); //debug($employee); exit;
-        if ($employee['Employee']['salesforce'] == 0) // some employees have been deleted, skip
-        {
-
-            $tagged_reports = $this->CommissionsReportsTag->find('all',array('conditions'=>array('employee_id'=>$employee_id)));
-
-
-            $i = 0;
-            foreach ($tagged_reports as $taggedreport):
-                $this->CommissionsReportsTag->delete($taggedreport['CommissionsReportsTag']['id']);
-                $i++;
-            endforeach;
-        }
     }
     function strikecount($id)
     {
         $this->recursive = 1;
-
-        $this->unbindModel(array('hasMany' => array('EmployeesMemo','EmployeesPayment','ClientsContract',
-        'EmployeesEmail','CommissionsReportsTag',
-        'CommissionsPayment','NotesPayment','Note','Expense')));
         $this->unbindModel(array('belongsTo' => array('State'),),false);
         $this->unbindModel(array('hasOne' => array('Profile'),),false);
         $emp = $this->read(null, $id);
@@ -856,11 +778,6 @@ class Employee extends AppModel {
             }
             $newEmpID = $this->getLastInsertID();
             $employeepass=$this->read(null, $newEmpID);
-            if($employeepass['Employee']['startdate'])
-            {
-                $this->CommissionsReportsTag->generate_tags_employee($employeepass)	;
-            }
-
             $emp['Employee']['modified_date'] = date('Y-m-d H:m:s');
             if (isset($emp['Employee']['firstname']) && isset($emp['Employee']['lastname'])&& isset($emp['Employee']['id']))
             {
@@ -957,15 +874,10 @@ class Employee extends AppModel {
         $this->EmployeesMemo->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->EmployeesPayment->unbindModel(array('belongsTo' => array('Employee','Payroll','Invoice'),),false);
         $this->EmployeesEmail->unbindModel(array('belongsTo' => array('Employee'),),false);
-        $this->CommissionsReportsTag->unbindModel(array('belongsTo' => array('Employee'),),false);
-        $this->CommissionsReportsTag->unbindModel(array('hasMany' => array('InvoicesItemsCommissionsItem'),),false);
         $this->Note->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->Profile->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->CommissionsPayment->unbindModel(array('belongsTo' => array('Employee'),),false);
         $this->NotesPayment->unbindModel(array('belongsTo' => array('Employee'),),false);
-        $this->unbindModel(array('hasMany' => array('ClientsContract','EmployeesLetter','EmployeesMemo',
-                        'CommissionsReportsTag','CommissionsPayment','NotesPayment',
-                        'Note','Expense','InvoicesItemsCommissionsItem'),),false);
         $employee = $this->read(null, $id);
         $employee['Employee']['issalesforce'] =  $this->issalesforce($id);
         $employee['User']=$employee['Profile']['User'];

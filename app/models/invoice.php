@@ -12,7 +12,6 @@ App::import('Component', 'FixtureDirectories');
 App::import('Model', 'InvoicesItem');
 App::import('Model', 'ClientsContract');
 App::import('Model', 'CommissionsReport');
-App::import('Model', 'CommissionsReportsTag');
 App::import('Model', 'Employee');
 App::import('Model', 'InvoicesItemsCommissionsItem');
 
@@ -214,18 +213,11 @@ class Invoice extends AppModel {
                 $percent = $comm['InvoicesItemsCommissionsItem']['percent'];
                 $comm['InvoicesItemsCommissionsItem']['amount'] = round($commission_undivided *$percent/100,2);
                 $comm['InvoicesItemsCommissionsItem']['date'] =$invoice['Invoice']['date'];
-
-
                 $datea = array();
                 $datea['month'] = date("m",strtotime($invoice['Invoice']['date']));
                 $datea['year'] = date("Y",strtotime($invoice['Invoice']['date']));
-
-
                 $comm['InvoicesItemsCommissionsItem']['commissions_report_id'] =
                         $this->commsComp->reportID_fromdate($datea);
-
-                $comm['InvoicesItemsCommissionsItem']['commissions_reports_tag_id'] =
-                        $this->CommissionsReportsTag->shell_tagID($comm['InvoicesItemsCommissionsItem']['employee_id'],$comm['InvoicesItemsCommissionsItem']['commissions_report_id']);
                 $this->InvoicesItem->InvoicesItemsCommissionsItem->save($comm);
             endforeach;
         endforeach;
@@ -279,15 +271,6 @@ class Invoice extends AppModel {
                 $comm['InvoicesItemsCommissionsItem']['rel_item_amt'] =$invoiceItem['amount'];
                 $comm['InvoicesItemsCommissionsItem']['rel_item_quantity'] =$invoiceItem['quantity'];
                 $comm['InvoicesItemsCommissionsItem']['rel_item_cost'] =$invoiceItem['cost'];
-
-                // What does shell_tagID do? Does it generate tag if one does not exist?
-                // Does generate reminders setup tag?
-		// fixme:
-/*
-                $comm['InvoicesItemsCommissionsItem']['commissions_reports_tag_id'] =
-                    $this->CommissionsReportsTag->shell_tagID($comm['InvoicesItemsCommissionsItem']['employee_id'],
-                        $comm['InvoicesItemsCommissionsItem']['commissions_report_id']);
-*/
                 $this->InvoicesItem->InvoicesItemsCommissionsItem->save($comm);
             endforeach;
         endforeach;
@@ -611,26 +594,18 @@ class Invoice extends AppModel {
                                 $invlineitemcommslineitem['InvoicesItemsCommissionsItem']['percent'] = $citem['percent'];
                                 $invlineitemcommslineitem['InvoicesItemsCommissionsItem']['invoices_item_id'] =
                                                 $this->InvoicesItem->getLastInsertID();
-
-
                                 $datea = array();
                                 $datea['month'] = date("m",strtotime($invoice['Invoice']['date']));
                                 $datea['year'] = date("Y",strtotime($invoice['Invoice']['date']));
 
                                 $invlineitemcommslineitem['InvoicesItemsCommissionsItem']['commissions_report_id'] =
                                     $this->commsComp->reportID_fromdate($datea);
-
-                                $invlineitemcommslineitem['InvoicesItemsCommissionsItem']['commissions_reports_tag_id'] =
-                                    $this->CommissionsReportsTag->shell_tagID($invlineitemcommslineitem['InvoicesItemsCommissionsItem']['employee_id'],
-                                        $invlineitemcommslineitem['InvoicesItemsCommissionsItem']['commissions_report_id']);
-
                                 $this->InvoicesItem->InvoicesItemsCommissionsItem->create();
                                 $this->InvoicesItem->InvoicesItemsCommissionsItem->save($invlineitemcommslineitem);
                         endforeach;
                     }
                 }
             endforeach;
-
             return true;
         } else {
             return false;
@@ -651,10 +626,7 @@ class Invoice extends AppModel {
                                 'order' => ''
             )),),false);
         $this->unbindModel(array('hasMany' => array('InvoicesItem'),),false);
-        $result = $this->read(null,$id);
-        $this->ClientsContract->Employee->unbindModel(array('hasMany' => array('ClientsContract','EmployeesPayment','EmployeesMemo','EmployeesEmail', 'CommissionsReportsTag',
-            'EmployeesLetter', 'CommissionsPayment', 'Note', 'Expense', 'NotesPayment', 'InvoicesItemsCommissionsItem', 'EmployeesMemo'),),false);
-        $this->ClientsContract->Client->unbindModel(array('hasMany' => array('ClientsContract','ClientsManager','ClientsMemo','ClientsCheck','ClientsSearch'),),false);
+        $result = $this->read(null,$id);        $this->ClientsContract->Client->unbindModel(array('hasMany' => array('ClientsContract','ClientsManager','ClientsMemo','ClientsCheck','ClientsSearch'),),false);
         $result['Employee'] = $this->ClientsContract->Employee->read(null,$result['ClientsContract']['employee_id']);
         $result['Client'] = $this->ClientsContract->Client->read(null,$result['ClientsContract']['client_id']);
         //$this->InvoicesItem->unbindModel(array('hasMany' => array('InvoicesItemsCommissionsItem'),),false);
@@ -684,9 +656,7 @@ class Invoice extends AppModel {
                                 'order' => ''
             )),),false);
         $this->unbindModel(array('hasMany' => array('InvoicesItem'),),false);
-        $result = $this->read(null,$id); //debug($result);exit;
-        $this->ClientsContract->Employee->unbindModel(array('hasMany' => array('Note','EmployeesLetter', 'CommissionsPayment', 'NotesPayment', 'InvoicesItemsCommissionsItem', 'CommissionsReportsTag','Expense','ClientsContract','EmployeesPayment','EmployeesMemo','EmployeesEmail'),),false);
-        $this->ClientsContract->Client->unbindModel(array('hasMany' => array('ClientsContract','ClientsManager','ClientsMemo','ClientsCheck','ClientsSearch'),),false);
+        $result = $this->read(null,$id);        $this->ClientsContract->Client->unbindModel(array('hasMany' => array('ClientsContract','ClientsManager','ClientsMemo','ClientsCheck','ClientsSearch'),),false);
         $result['Employee'] = $this->ClientsContract->Employee->read(null,$result['ClientsContract']['employee_id']);
         $result['Client'] = $this->ClientsContract->Client->read(null,$result['ClientsContract']['client_id']);
         $this->InvoicesItem->unbindModel(array('hasMany' => array('InvoicesItemsCommissionsItem'),),false);

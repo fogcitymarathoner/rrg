@@ -255,9 +255,6 @@ class ReminderCache extends Reminder
 
                             $invlineitemcommslineitem['InvoicesItemsCommissionsItem']['commissions_report_id'] =
                                 $this->commsComp->reportID_fromdate($datea);
-
-                            $invlineitemcommslineitem['InvoicesItemsCommissionsItem']['commissions_reports_tag_id'] =
-                                $this->CommissionsReportsTag->shell_tagID($invlineitemcommslineitem['InvoicesItemsCommissionsItem']['employee_id'], $invlineitemcommslineitem['InvoicesItemsCommissionsItem']['commissions_report_id']);
                             $invlineitemcommslineitem['InvoicesItemsCommissionsItem']['description'] = $employee['firstname'] . ' ' . $employee['lastname'];
                             $invlineitemcommslineitem['InvoicesItemsCommissionsItem']['percent'] = $citem['percent'];
                             $invlineitemcommslineitem['InvoicesItemsCommissionsItem']['invoices_item_id'] =

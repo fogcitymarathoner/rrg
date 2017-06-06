@@ -12,7 +12,6 @@ App::import('Component', 'FixtureDirectories');
 App::import('Model', 'cache/invoice');
 App::import('Model', 'InvoicesItemsCommissionsItem');
 App::import('Model', 'CommissionsReport');
-App::import('Model', 'CommissionsReportsTag');
 App::import('Model', 'CommissionsPayment');
 App::import('Model', 'Note');
 App::import('Model', 'NotesPayment');
@@ -194,9 +193,6 @@ class XmlComponent
 
         $this->add_id_list_to_element($doc,$new_element, $emp['EmployeesEmail']);
 
-        $root->appendChild($new_element);
-        $new_element = $doc->createElement('commissions-tags');
-        $this->add_id_list_to_element($doc,$new_element, $emp['CommissionsReportsTag']);
         $root->appendChild($new_element);
         $new_element = $doc->createElement('commissions-payments');
         $this->add_id_list_to_element($doc,$new_element, $emp['CommissionsPayment']);
@@ -483,8 +479,6 @@ class XmlComponent
         $this->add_field($doc, $root, 'invoice_id', $item['InvoicesItem']['invoice_id']);
 
         $this->add_field($doc, $root, 'commissions_report_id', $item['InvoicesItem']['invoice_id']);
-
-        $this->add_field($doc, $root, 'commissions_reports_tag_id', $item['InvoicesItemsCommissionsItem']['commissions_reports_tag_id']);
 
 
         $this->add_field($doc, $root, 'description', $item['InvoicesItemsCommissionsItem']['description']);
@@ -1096,10 +1090,6 @@ class XmlComponent
 
         $this->add_field($doc, $root, 'check_number', $pay['CommissionsPayment']['check_number']);
         $this->add_field($doc, $root, 'commissions_report_id', $pay['CommissionsPayment']['commissions_report_id']);
-
-        $this->add_field($doc, $root, 'commissions_reports_tag_id', $pay['CommissionsPayment']['commissions_reports_tag_id']);
-
-
         $this->add_field($doc, $root, 'description', $pay['CommissionsPayment']['description']);
         $this->add_field($doc, $root, 'date', $pay['CommissionsPayment']['date']);
 
