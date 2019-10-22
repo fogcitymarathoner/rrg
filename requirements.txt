@@ -1,4 +1,4 @@
-ecdsa==0.13
+ecdsa==0.13.3
 Fabric==1.11.1
 gitdb==0.6.4
 GitPython==2.0.5
